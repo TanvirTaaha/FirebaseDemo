@@ -7,4 +7,25 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="tan_color">#FFF7DA</color>
+    <color name="color_purple">#8800A0</color>
+    <color name="color_orange">#FD8E09</color>
+    <color name="color_brown">#4A312A</color>
+    <color name="color_brown_dark">#2F1D1A</color>
+
+
+    <!-- Primary brand color. -->
+    <color name="colorPrimary">@color/purple_200</color>
+    <color name="colorPrimaryVariant">@color/purple_700</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <!-- Secondary brand color. -->
+    <color name="colorSecondary">@color/teal_200</color>
+    <color name="colorSecondaryVariant">@color/teal_200</color>
+    <color name="colorOnSecondary">@color/black</color>
+
+    <color name="color_for_selector_click">#20000000</color>
+    <color name="color_for_selector_click_border">#80000000</color>
+
 </resources>
