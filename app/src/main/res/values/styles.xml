@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.FireBaseDemo.CreateMessageTil" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/create_msg_box_bg_color</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusBottomEnd">25dp</item>
+        <item name="boxCornerRadiusBottomStart">25dp</item>
+        <item name="boxCornerRadiusTopEnd">25dp</item>
+        <item name="boxCornerRadiusTopStart">25dp</item>
+        <item name="boxStrokeColor">@color/create_msg_box_stroke_color</item>
+        <item name="boxStrokeWidth">.8dp</item>
+        <item name="boxStrokeWidthFocused">.8dp</item>
+    </style>
+</resources>

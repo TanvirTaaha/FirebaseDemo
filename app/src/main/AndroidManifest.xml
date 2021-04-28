@@ -7,12 +7,17 @@
     <application
         android:name=".app.AppController"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FireBaseDemo">
-        <activity android:name=".VerifyEmailActivity"></activity>
+        <activity
+            android:name=".MessagesActivity"
+            android:label="Inbox"
+            android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
+        <activity android:name=".VerifyEmailActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LogInActivity" />

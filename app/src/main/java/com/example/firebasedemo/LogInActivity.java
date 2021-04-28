@@ -1,6 +1,5 @@
 package com.example.firebasedemo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,17 +13,17 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.firebasedemo.model.LogInModel;
-import com.example.firebasedemo.presenter.BaseBody;
-import com.example.firebasedemo.presenter.Presenter;
 import com.example.firebasedemo.utils.PreferenceManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class LogInActivity extends AppCompatActivity implements IView<LogInModel> {
+import timber.log.Timber;
+
+public class LogInActivity extends AppCompatActivity {
     //widgets
     private ImageView ivLogoImage;
     private Button btnSignIn;
@@ -41,8 +40,8 @@ public class LogInActivity extends AppCompatActivity implements IView<LogInModel
     //vars
     private String mEmail;
     private String mPassword;
-    private LogInPresenter logInPresenter;
     private PreferenceManager preferenceManager;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +64,12 @@ public class LogInActivity extends AppCompatActivity implements IView<LogInModel
 
 
 
-        logInPresenter = new LogInPresenter(this, this);
+//        logInPresenter = new LogInPresenter(this, this);
         preferenceManager = new PreferenceManager(this);
+        mAuth = FirebaseAuth.getInstance();
 
 
-//        btnNewUserSignUp.setOnClickListener(v -> startActivity(new Intent(LogInActivity.this, SignUpActivity.class)));
+        btnNewUserSignUp.setOnClickListener(v -> startActivity(new Intent(LogInActivity.this, SignUpActivity.class)));
 
         btnSignIn.setOnClickListener(v -> {
             v.setEnabled(false);
@@ -107,55 +107,28 @@ public class LogInActivity extends AppCompatActivity implements IView<LogInModel
 
     private void sendToLogIn() {
         rlProgressbarContainer.setVisibility(View.VISIBLE);
-        logInPresenter.sendRequest(new LogInPresenter.LogInBody(mEmail, mPassword));
-    }
-
-    @Override
-    public void onResponseSuccess(LogInModel logInModel, Presenter name) {
-        rlProgressbarContainer.setVisibility(View.GONE);
-//        Timber.d(logInModel.getAccess_token());
-        Snackbar.make(rlProgressbarContainer, "Log in success", Snackbar.LENGTH_SHORT).show();
-
-
-//        preferenceManager.setLoggedIn(true);
-//        preferenceManager.setAccessToken(logInModel.getAccess_token());
-//        preferenceManager.setEmail(mEmail);
-//        preferenceManager.setPassword(mPassword);
-        goToMainActivity();
-    }
-
-    @Override
-    public void onResponseFailure() {
-        rlProgressbarContainer.setVisibility(View.GONE);
-        Snackbar.make(rlProgressbarContainer, "Something went wrong", Snackbar.LENGTH_SHORT).show();
-
-        btnSignIn.setEnabled(true);
-    }
-
-    private void goToMainActivity() {
-        startActivity(new Intent(LogInActivity.this, MainActivity.class));
-        finish();
-    }
-
-    private static class LogInPresenter{
-
-        public LogInPresenter(Context context, IView<LogInModel> view) {
-//            super(context, view, Presenter.LOG_IN_PRESENTER);
-        }
-
-        public static class LogInBody extends BaseBody {
-            String email;
-            String password;
-
-            public LogInBody(String email, String password) {
-                this.email = email;
-                this.password = password;
+        mAuth.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(task -> {
+            rlProgressbarContainer.setVisibility(View.GONE);
+            if (task.isSuccessful()) {
+                Timber.d("Signed in successfully user:%s, credentials:%s, addInfo:%s",
+                        task.getResult().getUser(),
+                        task.getResult().getCredential(),
+                        task.getResult().getAdditionalUserInfo());
+                startActivity(new Intent(LogInActivity.this, HomeActivity.class));
+                finish();
+            } else {
+                Snackbar.make(rlProgressbarContainer, "Login failed", Snackbar.LENGTH_SHORT).show();
+                Timber.d("Sign in failed error:%s",
+                        task.getException().getLocalizedMessage());
+                task.getException().printStackTrace();
             }
-        }
-
-
-        public void sendRequest(LogInBody logInBody){
-
-        }
+        }).addOnFailureListener(e -> {
+            Snackbar.make(rlProgressbarContainer, "Login failed", Snackbar.LENGTH_SHORT).show();
+            Timber.d("Sign in failed error:%s",
+                    e.getLocalizedMessage());
+            e.printStackTrace();
+        });
     }
+
+
 }

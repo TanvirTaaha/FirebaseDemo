@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="@drawable/my_click_effect_selector">
+            android:foreground="@drawable/my_click_effect_round_selector">
 
             <ImageView
                 android:id="@+id/ivLogoImage"
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/create_password"
             app:errorEnabled="true"
-            app:passwordToggleEnabled="true">
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tietPassword"

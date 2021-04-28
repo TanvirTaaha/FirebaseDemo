@@ -11,7 +11,7 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Timber.plant(new TagTree("Taaha", true));
         }
     }

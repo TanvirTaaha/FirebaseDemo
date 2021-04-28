@@ -1,5 +1,6 @@
 package com.example.firebasedemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -32,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     //widgets
     private Button btnLogout;
     private Button btnAddData;
+    private Button btnMessages;
     private RecyclerView rvRealTimeData;
     private EditText etKey;
     private EditText etValue;
@@ -49,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
 
         btnLogout = findViewById(R.id.btnLogout);
         btnAddData = findViewById(R.id.btnAddData);
+        btnMessages = findViewById(R.id.btnMessages);
         rvRealTimeData = findViewById(R.id.rvRealTimeData);
         etKey = findViewById(R.id.etKey);
         etValue = findViewById(R.id.etValue);
@@ -74,6 +77,8 @@ public class HomeActivity extends AppCompatActivity {
             value = etValue.getText().toString().trim();
             addData(key, value);
         });
+
+        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MessagesActivity.class)));
 
         databaseRefCities.addChildEventListener(new ChildEventListener() {
             @Override

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:gravity="right"
+    android:orientation="horizontal"
+    android:paddingRight="8dp"
+    tools:ignore="RtlHardcoded,RtlSymmetry">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chat_message_item_me_bg"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/tvText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:maxWidth="240dp"
+            android:text="I'm gonna sleep            "
+            android:textColor="?attr/colorOnSecondary" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/tvText"
+            android:layout_alignBottom="@id/tvText"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="-6dp"
+            android:layout_marginBottom="-4dp"
+            android:gravity="center"
+            android:text="7:01 pm"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ivCorner"
+        android:layout_width="12dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginTop="1.8dp"
+        android:src="@drawable/chat_bubble_corner_me" />
+</LinearLayout>

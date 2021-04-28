@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="@drawable/my_click_effect_selector">
+            android:foreground="@drawable/my_click_effect_round_selector">
 
             <ImageView
                 android:id="@+id/ivLogoImage"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             app:errorEnabled="true"
-            app:passwordToggleEnabled="true">
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tietPassword"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="@string/forgot_password"
-            android:textColor="@color/colorSecondaryVariant" />
+            android:textColor="?attr/colorSecondaryVariant" />
 
         <Button
             android:id="@+id/btnSignIn"
@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:backgroundTint="@color/colorSecondary"
+            android:backgroundTint="?attr/colorSecondary"
             android:text="@string/sign_in" />
 
 

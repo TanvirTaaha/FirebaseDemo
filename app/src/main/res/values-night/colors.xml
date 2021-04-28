@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Primary brand color. -->
-    <color name="colorPrimary">@color/purple_200</color>
-    <color name="colorPrimaryVariant">@color/purple_700</color>
-    <color name="colorOnPrimary">@color/black</color>
-    <!-- Secondary brand color. -->
-    <color name="colorSecondary">@color/teal_200</color>
-    <color name="colorSecondaryVariant">@color/teal_200</color>
-    <color name="colorOnSecondary">@color/white</color>
-
     <color name="color_for_selector_click">#20ffffff</color>
     <color name="color_for_selector_click_border">#80ffffff</color>
 
+    <color name="create_msg_box_bg_color">#10ffffff</color>
+    <color name="create_msg_box_stroke_color">#20ffffff</color>
 </resources>

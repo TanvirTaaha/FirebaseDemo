@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bg_avatar"
+        android:bottom="@dimen/avatar_outer_ring_gap"
+        android:left="@dimen/avatar_outer_ring_gap"
+        android:right="@dimen/avatar_outer_ring_gap"
+        android:top="@dimen/avatar_outer_ring_gap">
+        <shape android:shape="oval">
+            <solid android:color="@color/user_avatar_bg_solid" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="5dp"
+        android:drawable="@drawable/ic_baseline_person_56_alpha"
+        android:left="4dp"
+        android:right="3dp"
+        android:top="2dp" >
+    </item>
+
+    <item
+        android:id="@+id/user_image"
+        android:bottom="6dp"
+        android:drawable="@drawable/ic_baseline_person_56"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="2dp" />
+
+    <item android:id="@+id/bg_avatar_ring">
+        <shape android:shape="oval">
+            <stroke
+                android:width=".5dp"
+                android:color="@color/user_avatar_bg_solid" />
+        </shape>
+    </item>
+</layer-list>
