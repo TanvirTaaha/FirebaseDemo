@@ -4,12 +4,11 @@
     <color name="color_for_selector_click">#20ffffff</color>
     <color name="color_for_selector_click_border">#80ffffff</color>
 
-    <color name="create_msg_text_box_bg_color">#10ffffff</color>
-    <color name="create_msg_text_box_stroke_color">#20ffffff</color>
-    <color name="create_msg_fab_icon_color">@android:color/white</color>
-    <color name="user_avatar_bg_solid">#50ffffff</color>
-<!--    <color name="chat_bubble_me_corner_color_value">#1B4370</color>-->
-<!--    <color name="chat_bubble_me_corner_color_value_clicked">#70000000</color>-->
-<!--    <color name="chat_bubble_you_corner_color_value">#404040</color>-->
-<!--    <color name="chat_bubble_you_corner_color_value_clicked">#000000</color>-->
+    <color name="create_msg_box_bg_color">#10ffffff</color>
+    <color name="create_msg_box_stroke_color">#20ffffff</color>
+
+    <color name="chat_bubble_me_corner_color_value">#1B4370</color>
+    <color name="chat_bubble_me_corner_color_value_clicked">#70000000</color>
+    <color name="chat_bubble_you_corner_color_value">#404040</color>
+    <color name="chat_bubble_you_corner_color_value_clicked">#000000</color>
 </resources>

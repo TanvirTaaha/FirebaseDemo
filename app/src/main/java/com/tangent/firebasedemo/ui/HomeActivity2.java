@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui;
+package com.tangent.firebasedemo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,27 +19,22 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.KeyValueAdapter;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
-import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
-import com.tangent.firebasedemo.ui.auth.FirstSignupActivity;
-import com.tangent.firebasedemo.ui.home.HomeActivity;
-import com.tangent.firebasedemo.ui.inbox.InboxActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import timber.log.Timber;
 
-public class HomeActivity2 extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     //widgets
     private Button btnLogout;
     private Button btnAddData;
     private Button btnMessages;
-    private Button btnHomeAct1;
+    private Button btnVerifyAct;
     private RecyclerView rvRealTimeData;
     private EditText etKey;
     private EditText etValue;
@@ -53,12 +48,12 @@ public class HomeActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home2);
+        setContentView(R.layout.activity_home);
 
         btnLogout = findViewById(R.id.btnLogout);
         btnAddData = findViewById(R.id.btnAddData);
         btnMessages = findViewById(R.id.btnMessages);
-        btnHomeAct1 = findViewById(R.id.btnHomeAct1);
+        btnVerifyAct = findViewById(R.id.btnVerifyAct);
         rvRealTimeData = findViewById(R.id.rvRealTimeData);
         etKey = findViewById(R.id.etKey);
         etValue = findViewById(R.id.etValue);
@@ -75,21 +70,18 @@ public class HomeActivity2 extends AppCompatActivity {
         rvRealTimeData.setAdapter(keyValueAdapter);
 
         databaseRefCities = FirebaseDatabase.getInstance().getReference().child("cities");
-        firebaseDatabaseRepo = FirebaseDatabaseRepo.getInstance();
 
         getAllDataFromDatabase(false);
 
-//        btnAddData.setOnClickListener(v -> {
-//            String key, value;
-//            key = etKey.getText().toString().trim();
-//            value = etValue.getText().toString().trim();
-//            addData(key, value);
-//        });
-        btnAddData.setOnClickListener(v -> test(etKey.getText().toString().trim(), etValue.getText().toString().trim()));
+        btnAddData.setOnClickListener(v -> {
+            String key, value;
+            key = etKey.getText().toString().trim();
+            value = etValue.getText().toString().trim();
+            addData(key, value);
+        });
 
-
-        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, InboxActivity.class)));
-        btnHomeAct1.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, HomeActivity.class)));
+        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MessagesActivity.class)));
+        btnVerifyAct.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, VerifyEmailActivity.class)));
 
         databaseRefCities.addChildEventListener(new ChildEventListener() {
             @Override
@@ -137,11 +129,7 @@ public class HomeActivity2 extends AppCompatActivity {
             }
         });
 
-        btnLogout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, FirstSignupActivity.class));
-        });
-        findViewById(R.id.btngoto).setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, FirstSignupActivity.class)));
+        btnLogout.setOnClickListener(v -> FirebaseAuth.getInstance().signOut());
     }
 
     private void getAllDataFromDatabase(boolean fromRefresh) {
@@ -177,10 +165,5 @@ public class HomeActivity2 extends AppCompatActivity {
                 Timber.v("Child removed: kew:%s, value:%s, listPos:%d", key, value, pos);
             }
         });
-    }
-
-    FirebaseDatabaseRepo firebaseDatabaseRepo;
-    private void test(String key, String value) {
-//        firebaseDatabaseRepo.createUserRealtime(new UserModel("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
     }
 }
