@@ -25,8 +25,8 @@
     <color name="create_msg_box_bg_color">#10000000</color>
     <color name="create_msg_box_stroke_color">#20000000</color>
 
-    <color name="chat_bubble_me_corner_color_value">#A4CCF8</color>
-    <color name="chat_bubble_me_corner_color_value_clicked">#70000000</color>
-    <color name="chat_bubble_you_corner_color_value">#D8DFE8</color>
-    <color name="chat_bubble_you_corner_color_value_clicked">#808080</color>
+<!--    <color name="chat_bubble_me_corner_color_value">#A4CCF8</color>-->
+<!--    <color name="chat_bubble_me_corner_color_value_clicked">#70000000</color>-->
+<!--    <color name="chat_bubble_you_corner_color_value">#D8DFE8</color>-->
+<!--    <color name="chat_bubble_you_corner_color_value_clicked">#808080</color>-->
 </resources>

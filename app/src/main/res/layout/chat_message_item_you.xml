@@ -16,8 +16,6 @@
         android:layout_height="18dp"
         android:layout_marginTop="1.8dp"
         android:layout_marginRight="-8dp"
-        android:clickable="true"
-        android:focusable="true"
         app:srcCompat="@drawable/chat_bubble_corner_you_vector"
         tools:ignore="RtlHardcoded" />
 
