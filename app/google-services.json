@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "1037116348296",
+    "firebase_url": "https://fir-demo-9e31a-default-rtdb.firebaseio.com",
     "project_id": "fir-demo-9e31a",
     "storage_bucket": "fir-demo-9e31a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1037116348296:android:afc78a2df26662ec8e0c3d",
+        "mobilesdk_app_id": "1:1037116348296:android:8c1a578bbd8a22ee8e0c3d",
         "android_client_info": {
-          "package_name": "com.example.firebasedemo"
+          "package_name": "com.tangent.firebasedemo"
         }
       },
       "oauth_client": [

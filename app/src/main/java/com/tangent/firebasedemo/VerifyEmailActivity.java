@@ -6,8 +6,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.tangent.firebasedemo.view_model.VerifyEmailActivityViewModel;
+
+import timber.log.Timber;
 
 public class VerifyEmailActivity extends AppCompatActivity {
 
@@ -26,7 +30,10 @@ public class VerifyEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_email);
 
+        Timber.i(getLifecycle().getCurrentState().name());
 
-
+        VerifyEmailActivityViewModel viewModel = new ViewModelProvider(this).get(VerifyEmailActivityViewModel.class);
+        TextView tvrandom = findViewById(R.id.tvrandom);
+        tvrandom.setText("RandNumber:" + viewModel.getNumber());
     }
 }

@@ -74,4 +74,15 @@
         android:text="Messages"
         android:layout_toRightOf="@id/btnLogout"
         android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnVerifyAct"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="VerifyActivity"
+        android:layout_toRightOf="@id/btnMessages"
+        android:textAllCaps="false" />
 </RelativeLayout>

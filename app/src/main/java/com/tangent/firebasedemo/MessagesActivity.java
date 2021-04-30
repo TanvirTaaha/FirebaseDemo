@@ -115,6 +115,10 @@ public class MessagesActivity extends AppCompatActivity {
                 Toast.makeText(MessagesActivity.this, mChats.get(position).getText(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        findViewById(R.id.ivTest).setOnClickListener(v -> {
+
+        });
     }
 
     private void addMessage(String message, boolean mine) {

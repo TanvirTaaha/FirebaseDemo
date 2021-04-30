@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.tangent.firebasedemo.adapter.KeyValueAdapter;
-import com.tangent.firebasedemo.model.BaseModel;
-import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.tangent.firebasedemo.adapter.KeyValueAdapter;
+import com.tangent.firebasedemo.model.BaseModel;
+import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button btnLogout;
     private Button btnAddData;
     private Button btnMessages;
+    private Button btnVerifyAct;
     private RecyclerView rvRealTimeData;
     private EditText etKey;
     private EditText etValue;
@@ -52,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         btnAddData = findViewById(R.id.btnAddData);
         btnMessages = findViewById(R.id.btnMessages);
+        btnVerifyAct = findViewById(R.id.btnVerifyAct);
         rvRealTimeData = findViewById(R.id.rvRealTimeData);
         etKey = findViewById(R.id.etKey);
         etValue = findViewById(R.id.etValue);
@@ -79,6 +81,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MessagesActivity.class)));
+        btnVerifyAct.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, VerifyEmailActivity.class)));
 
         databaseRefCities.addChildEventListener(new ChildEventListener() {
             @Override
