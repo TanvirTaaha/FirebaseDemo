@@ -116,9 +116,9 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.ivTest).setOnClickListener(v -> {
-
-        });
+//        findViewById(R.id.ivTest).setOnClickListener(v -> {
+//
+//        });
     }
 
     private void addMessage(String message, boolean mine) {

@@ -17,6 +17,9 @@ public class Chat extends BaseModel{
         this.mine = mine;
     }
 
+    public Chat() {
+    }
+
     public String getText() {
         return text;
     }
