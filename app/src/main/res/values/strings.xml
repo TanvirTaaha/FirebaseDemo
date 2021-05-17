@@ -24,4 +24,7 @@
 
     <string name="chat_item_text_format">%1$s            </string>
     <string name="db_drop">DROP TABLE IF EXISTS</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="tab_text_1">Chats</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

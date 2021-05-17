@@ -1,6 +1,4 @@
-package com.tangent.firebasedemo;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.tangent.firebasedemo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.tangent.firebasedemo.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null && !TextUtils.isEmpty(currentUser.getEmail())) {
 //            Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
             tvLoggedIn.setVisibility(View.VISIBLE);
-            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            startActivity(new Intent(MainActivity.this, HomeActivity2.class));
             finish();
         }
     }

@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo;
+package com.tangent.firebasedemo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.utils.PreferenceManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -114,7 +115,7 @@ public class LogInActivity extends AppCompatActivity {
                         task.getResult().getUser(),
                         task.getResult().getCredential(),
                         task.getResult().getAdditionalUserInfo());
-                startActivity(new Intent(LogInActivity.this, HomeActivity.class));
+                startActivity(new Intent(LogInActivity.this, HomeActivity2.class));
                 finish();
             } else {
                 Snackbar.make(rlProgressbarContainer, "Login failed", Snackbar.LENGTH_SHORT).show();

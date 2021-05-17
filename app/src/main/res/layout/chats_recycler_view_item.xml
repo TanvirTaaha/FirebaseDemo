@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:paddingHorizontal="8dp">
+
+    <ImageView
+        android:id="@+id/ivProPic"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="8dp"
+        android:src="@drawable/user_avatar" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/ivProPic"
+        android:animateLayoutChanges="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvUserName"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="?android:textColorPrimary"
+            tools:text="Anonymous" />
+
+        <TextView
+            android:id="@+id/tvMiniMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/small_text_color"
+            tools:text="Anonymous" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:animateLayoutChanges="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="center_vertical|right"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/small_text_color"
+            tools:text="6:20 PM" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:background="@drawable/unread_chat_indicator_bg"
+            android:gravity="center"
+            android:textColor="?android:textColorPrimaryInverse"
+            android:textSize="@dimen/small_text_color"
+            tools:text="1" />
+    </LinearLayout>
+</RelativeLayout>

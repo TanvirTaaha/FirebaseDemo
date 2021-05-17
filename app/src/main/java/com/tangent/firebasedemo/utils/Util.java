@@ -11,4 +11,8 @@ public class Util {
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
     public static final String KEY_PHONE_NUMBER = "phone_number";
+
+    //FirebaseDatabase constants
+    public static final String BRANCH_MESSAGES = "messages";
+    public static final String BRANCH_USERS = "users";
 }

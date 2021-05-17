@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo;
+package com.tangent.firebasedemo.ui;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.view_model.VerifyEmailActivityViewModel;
 
 import timber.log.Timber;

@@ -1,8 +1,9 @@
-package com.tangent.firebasedemo;
+package com.tangent.firebasedemo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,22 +20,26 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.KeyValueAdapter;
+import com.tangent.firebasedemo.data.MessagesDatabase;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
+import com.tangent.firebasedemo.model.User;
+import com.tangent.firebasedemo.ui.main.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import timber.log.Timber;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity2 extends AppCompatActivity {
 
     //widgets
     private Button btnLogout;
     private Button btnAddData;
     private Button btnMessages;
-    private Button btnVerifyAct;
+    private Button btnHomeAct1;
     private RecyclerView rvRealTimeData;
     private EditText etKey;
     private EditText etValue;
@@ -48,12 +53,12 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home2);
 
         btnLogout = findViewById(R.id.btnLogout);
         btnAddData = findViewById(R.id.btnAddData);
         btnMessages = findViewById(R.id.btnMessages);
-        btnVerifyAct = findViewById(R.id.btnVerifyAct);
+        btnHomeAct1 = findViewById(R.id.btnHomeAct1);
         rvRealTimeData = findViewById(R.id.rvRealTimeData);
         etKey = findViewById(R.id.etKey);
         etValue = findViewById(R.id.etValue);
@@ -70,18 +75,26 @@ public class HomeActivity extends AppCompatActivity {
         rvRealTimeData.setAdapter(keyValueAdapter);
 
         databaseRefCities = FirebaseDatabase.getInstance().getReference().child("cities");
+        messagesDatabase = new MessagesDatabase();
 
         getAllDataFromDatabase(false);
 
-        btnAddData.setOnClickListener(v -> {
-            String key, value;
-            key = etKey.getText().toString().trim();
-            value = etValue.getText().toString().trim();
-            addData(key, value);
+//        btnAddData.setOnClickListener(v -> {
+//            String key, value;
+//            key = etKey.getText().toString().trim();
+//            value = etValue.getText().toString().trim();
+//            addData(key, value);
+//        });
+        btnAddData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                test(etKey.getText().toString().trim(), etValue.getText().toString().trim());
+            }
         });
 
-        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MessagesActivity.class)));
-        btnVerifyAct.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, VerifyEmailActivity.class)));
+
+        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, MessagesActivity.class)));
+        btnHomeAct1.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, HomeActivity.class)));
 
         databaseRefCities.addChildEventListener(new ChildEventListener() {
             @Override
@@ -165,5 +178,10 @@ public class HomeActivity extends AppCompatActivity {
                 Timber.v("Child removed: kew:%s, value:%s, listPos:%d", key, value, pos);
             }
         });
+    }
+
+    MessagesDatabase messagesDatabase;
+    private void test(String key, String value) {
+        messagesDatabase.createUser(new User("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
     }
 }

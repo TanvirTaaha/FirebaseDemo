@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 
-public abstract class BaseModel {
+import java.io.Serializable;
+
+public abstract class BaseModel implements Cloneable, Serializable {
     @NonNull
     @Override
     public String toString() {

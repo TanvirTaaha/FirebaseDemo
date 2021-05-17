@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo;
+package com.tangent.firebasedemo.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.ConversationAdapter;
 import com.tangent.firebasedemo.model.Chat;
 import com.tangent.firebasedemo.utils.AnimButton;
@@ -28,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MessagesActivity extends AppCompatActivity {
 
@@ -100,7 +102,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         animButtonSendMsg.setOnClickListener(v -> {
             if (animButtonSendMsg.getState() == AnimButton.SECOND_STATE) {
-                String message = tietMsgText.getText().toString().trim();
+                String message = Objects.requireNonNull(tietMsgText.getText()).toString().trim();
                 tietMsgText.setText("");
                 tietMsgText.clearFocus();
                 addMessage(message, message.toLowerCase().contains("me:"));
