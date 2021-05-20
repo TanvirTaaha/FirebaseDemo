@@ -1,6 +1,8 @@
-package com.tangent.firebasedemo.model;
+package com.tangent.firebasedemo.model.firebasemodel;
 
-public class InboxItem extends BaseModel{
+import com.tangent.firebasedemo.model.BaseModel;
+
+public class InboxItem extends BaseModel {
     private String conversation_id;
     private String time;
     private String read_status;

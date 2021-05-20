@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tangent.firebasedemo.R;
-import com.tangent.firebasedemo.model.Chat;
+import com.tangent.firebasedemo.model.uimodel.Chat;
 
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -98,13 +100,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             String dateStr;
             try {
-                dateStr = mDateFormatShort.format(mDateFormatFull.parse(chat.getTime()));
-            } catch (ParseException e) {
+                dateStr = mDateFormatShort.format(Objects.requireNonNull(mDateFormatFull.parse(chat.getTime())));
+            } catch (ParseException | NullPointerException e) {
                 e.printStackTrace();
                 dateStr = "";
             }
 
-            vhChat.tvText.setText(chat.getText() + "            ");
+            vhChat.tvText.setText(MessageFormat.format("{0}            ", chat.getText()));
 //            vhChat.tvText.setText(Html.fromHtml(Html.toHtml(vhChat.tvText.getText().toString()) + " &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;")); // 10 spaces
 
             vhChat.tvTime.setText(dateStr);
@@ -123,8 +125,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         } else {
             VHChat vhChat = (VHChat) holder;
-            vhChat.tvText.setText("blank");
-            vhChat.tvTime.setText("blank");
+            vhChat.tvText.setText(R.string.blank_chat_bubble_when_error);
+            vhChat.tvTime.setText(R.string.blank_chat_bubble_when_error);
         }
     }
 
@@ -146,11 +148,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mLongClickListener = chatLongClickListener;
     }
 
-    public static interface ChatClickListener {
-        public void onChatClicked(View v, int position);
+    public interface ChatClickListener {
+        void onChatClicked(View v, int position);
     }
 
-    public static interface ChatLongClickListener {
-        public void onChatLongClicked(View v, int position);
+    public interface ChatLongClickListener {
+        void onChatLongClicked(View v, int position);
     }
 }

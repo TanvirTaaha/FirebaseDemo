@@ -1,6 +1,8 @@
-package com.tangent.firebasedemo.model;
+package com.tangent.firebasedemo.model.uimodel;
 
-public class Chat extends BaseModel{
+import com.tangent.firebasedemo.model.BaseModel;
+
+public class Chat extends BaseModel {
     private String text;
     private String photo;
     private String time;

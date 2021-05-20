@@ -1,4 +1,6 @@
-package com.tangent.firebasedemo.model;
+package com.tangent.firebasedemo.model.firebasemodel;
+
+import com.tangent.firebasedemo.model.BaseModel;
 
 public class ChatBubble extends BaseModel {
     private String text;

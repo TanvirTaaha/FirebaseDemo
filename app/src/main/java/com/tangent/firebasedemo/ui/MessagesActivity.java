@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.ConversationAdapter;
-import com.tangent.firebasedemo.model.Chat;
+import com.tangent.firebasedemo.model.uimodel.Chat;
 import com.tangent.firebasedemo.utils.AnimButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -79,9 +79,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         llToolbarBackPress.setOnClickListener(v -> onBackPressed());
 
-        tilMsgText.setStartIconOnClickListener(v -> {
-            hideKeyboard(tietMsgText);
-        });
+        tilMsgText.setStartIconOnClickListener(v -> hideKeyboard(tietMsgText));
         tietMsgText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,12 +109,7 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter.setChatClickListener(new ConversationAdapter.ChatClickListener() {
-            @Override
-            public void onChatClicked(View v, int position) {
-                Toast.makeText(MessagesActivity.this, mChats.get(position).getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        mAdapter.setChatClickListener((v, position) -> Toast.makeText(MessagesActivity.this, mChats.get(position).getText(), Toast.LENGTH_SHORT).show());
 
 //        findViewById(R.id.ivTest).setOnClickListener(v -> {
 //

@@ -59,9 +59,9 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:text="Logout"
+        android:layout_above="@id/btngoto"
         android:textAllCaps="false" />
 
     <Button
@@ -85,4 +85,13 @@
         android:text="HomeAct1"
         android:layout_toRightOf="@id/btnMessages"
         android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btngoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="goto"
+        android:textAllCaps="false"
+        android:layout_margin="16dp"/>
 </RelativeLayout>

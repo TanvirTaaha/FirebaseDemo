@@ -3,7 +3,6 @@ package com.tangent.firebasedemo.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -25,7 +24,7 @@ import com.tangent.firebasedemo.adapter.KeyValueAdapter;
 import com.tangent.firebasedemo.data.MessagesDatabase;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
-import com.tangent.firebasedemo.model.User;
+import com.tangent.firebasedemo.model.firebasemodel.User;
 import com.tangent.firebasedemo.ui.main.HomeActivity;
 
 import java.util.ArrayList;
@@ -85,12 +84,7 @@ public class HomeActivity2 extends AppCompatActivity {
 //            value = etValue.getText().toString().trim();
 //            addData(key, value);
 //        });
-        btnAddData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                test(etKey.getText().toString().trim(), etValue.getText().toString().trim());
-            }
-        });
+        btnAddData.setOnClickListener(v -> test(etKey.getText().toString().trim(), etValue.getText().toString().trim()));
 
 
         btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, MessagesActivity.class)));
@@ -143,6 +137,7 @@ public class HomeActivity2 extends AppCompatActivity {
         });
 
         btnLogout.setOnClickListener(v -> FirebaseAuth.getInstance().signOut());
+        findViewById(R.id.btngoto).setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, SignupFirstActivity.class)));
     }
 
     private void getAllDataFromDatabase(boolean fromRefresh) {

@@ -1,8 +1,10 @@
-package com.tangent.firebasedemo.model;
+package com.tangent.firebasedemo.model.firebasemodel;
+
+import com.tangent.firebasedemo.model.BaseModel;
 
 import java.util.ArrayList;
 
-public class Conversation extends BaseModel{
+public class Conversation extends BaseModel {
     private String id;
     private ArrayList<ConversationMember> members;
     private ArrayList<ChatBubble> main_thread;

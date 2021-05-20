@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.VerifyOTPActivity">
+
+    <TextView
+        android:id="@+id/tvTopText"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textColor="?android:textColorPrimary"
+        tools:text="@string/enter_otp_sent_to_phone_no" />
+
+    <LinearLayout
+        android:id="@+id/llOTPEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTopText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="8dp"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/otpDigit1"
+            layout="@layout/single_pin_edittext" />
+
+        <include
+            android:id="@+id/otpDigit2"
+            layout="@layout/single_pin_edittext" />
+
+        <include
+            android:id="@+id/otpDigit3"
+            layout="@layout/single_pin_edittext" />
+
+        <include
+            android:id="@+id/otpDigit4"
+            layout="@layout/single_pin_edittext" />
+
+        <include
+            android:id="@+id/otpDigit5"
+            layout="@layout/single_pin_edittext" />
+
+        <include
+            android:id="@+id/otpDigit6"
+            layout="@layout/single_pin_edittext" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llOTPEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/verify" />
+</RelativeLayout>

@@ -1,4 +1,6 @@
-package com.tangent.firebasedemo.model;
+package com.tangent.firebasedemo.model.firebasemodel;
+
+import com.tangent.firebasedemo.model.BaseModel;
 
 import java.util.ArrayList;
 

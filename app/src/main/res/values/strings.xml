@@ -15,16 +15,25 @@
     <string name="sign_up">Sign up</string>
     <string name="already_registered_sign_in">Already registered? <u>Sign in</u></string>
     <string name="create_password">Create password</string>
-    <string name="verify_you_email">Verify you email…\n%1$s</string>
-    <string name="verify">Verify</string>
-    <string name="verified">Verified</string>
     <string name="anonymous">Anonymous</string>
     <string name="type_a_message">Type a message</string>
     <string name="send_message">Send Message</string>
+    <string name="edit">Edit</string>
 
     <string name="chat_item_text_format">%1$s            </string>
     <string name="db_drop">DROP TABLE IF EXISTS</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="tab_text_1">Chats</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="blank_chat_bubble_when_error">blank</string>
+    <string name="when_last_message_was_photo">Photo</string>
+    <string name="phone_number">phone number</string>
+    <string name="continue_with_phone">Continue</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="app_name_will_send_an_sms_message_to_verify_your_phone_number">%1s will send an SMS message to verify your phone number.</string>
+    <string name="carrier_sms_charges_may_apply">Carrier SMS charges may apply</string>
+    <string name="sure_to_send_an_sms">We will be verifying the phone number:<![CDATA[<br><b>%1$s</b><br>]]>Is this OK, or would you like to change the number?</string>
+    <string name="enter_otp_sent_to_phone_no">Enter otp sent to:<![CDATA[<br><b>%1$s</b>]]></string>
+    <string name="couldn_t_retrieve_the_phone_no">Couldn\'t retrieve the phone no</string>
+    <string name="verify">Verify</string>
 </resources>

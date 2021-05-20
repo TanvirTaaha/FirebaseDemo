@@ -1,4 +1,6 @@
-package com.tangent.firebasedemo.model;
+package com.tangent.firebasedemo.model.firebasemodel;
+
+import com.tangent.firebasedemo.model.BaseModel;
 
 public class ConversationMember extends BaseModel {
     private String user_id;

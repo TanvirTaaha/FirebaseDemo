@@ -8,9 +8,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.tangent.firebasedemo.model.Conversation;
-import com.tangent.firebasedemo.model.InboxItem;
-import com.tangent.firebasedemo.model.User;
+import com.tangent.firebasedemo.model.firebasemodel.Conversation;
+import com.tangent.firebasedemo.model.firebasemodel.InboxItem;
+import com.tangent.firebasedemo.model.firebasemodel.User;
 import com.tangent.firebasedemo.utils.Util;
 
 import org.jetbrains.annotations.NotNull;
@@ -98,9 +98,9 @@ public class MessagesDatabase {
 
     public void createUser(User user) {
         usersBranch.push().setValue(user).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-
-            }
+//            if (task.isSuccessful()) {
+//
+//            }
         });
     }
 
