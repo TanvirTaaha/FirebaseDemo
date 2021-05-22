@@ -23,6 +23,12 @@
         android:text="LogIn"
         android:visibility="gone" />
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/app_name"
+        android:src="@mipmap/ic_launcher" />
+
     <TextView
         android:id="@+id/tvLoggedIn"
         android:layout_width="wrap_content"
@@ -32,10 +38,4 @@
         android:textSize="32sp"
         android:visibility="gone"
         tools:visibility="visible" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/app_name" />
 </LinearLayout>

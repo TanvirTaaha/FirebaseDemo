@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.SignupFirstActivity">
+    tools:context=".ui.FirstSignupActivity">
 
     <LinearLayout
         android:id="@+id/llButtonsContainer"
@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        android:transitionGroup="true">
+        android:orientation="vertical">
 
         <TextView
             style="@style/TextAppearance.AppCompat.Medium"
@@ -86,13 +85,16 @@
             android:layout_marginVertical="8dp"
             android:gravity="center"
             android:text="@string/carrier_sms_charges_may_apply" />
-
-        <Button
-            android:id="@+id/btnContinue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/continue_with_phone" />
     </LinearLayout>
-</ScrollView>
+
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/continue_with_phone" />
+</RelativeLayout>

@@ -15,8 +15,13 @@
         android:theme="@style/Theme.FireBaseDemo"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".ui.SignupFirstActivity"
-            android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
+            android:name=".ui.SecondSignupActivity"
+            android:theme="@style/Theme.FireBaseDemo.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.FirstSignupActivity"
+            android:theme="@style/Theme.FireBaseDemo.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".app.FireMessageService"
@@ -36,12 +41,15 @@
             android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
         <activity
             android:name=".ui.VerifyOTPActivity"
-            android:parentActivityName=".ui.SignupFirstActivity"
-            android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
+            android:parentActivityName=".ui.FirstSignupActivity"
+            android:theme="@style/Theme.FireBaseDemo.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.HomeActivity2" />
         <activity android:name=".ui.SignUpActivity" />
         <activity android:name=".ui.LogInActivity" />
-        <activity android:name=".ui.StartActivity">
+        <activity
+            android:name=".ui.StartActivity"
+            android:theme="@style/Theme.FireBaseDemo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

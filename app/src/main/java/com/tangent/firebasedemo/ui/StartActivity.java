@@ -61,7 +61,7 @@ public class StartActivity extends AppCompatActivity {
                 tvLoggedIn.setVisibility(View.VISIBLE);
                 startActivity(new Intent(StartActivity.this, HomeActivity2.class));
             } else {
-                startActivity(new Intent(StartActivity.this, SignupFirstActivity.class));
+                startActivity(new Intent(StartActivity.this, FirstSignupActivity.class));
             }
             finish();
         }, 1000);

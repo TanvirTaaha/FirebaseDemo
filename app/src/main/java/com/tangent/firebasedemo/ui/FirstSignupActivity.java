@@ -11,22 +11,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.tangent.firebasedemo.R;
-import com.tangent.firebasedemo.databinding.ActivitySignupFirstBinding;
+import com.tangent.firebasedemo.databinding.ActivityFirstSignupBinding;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
+import com.tangent.firebasedemo.utils.PreferenceManager;
+import com.tangent.firebasedemo.utils.Util;
 
-public class SignupFirstActivity extends AppCompatActivity {
+public class FirstSignupActivity extends AppCompatActivity {
     //vars
-    private ActivitySignupFirstBinding binding;
-    FirebaseAuth mAuth;
+    private ActivityFirstSignupBinding binding;
+    private FirebaseAuth mAuth;
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySignupFirstBinding.inflate(getLayoutInflater());
+        binding = ActivityFirstSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
         binding.tvAppNameMessage.setText(getString(R.string.app_name_will_send_an_sms_message_to_verify_your_phone_number, getString(R.string.app_name)));
+
+        preferenceManager = new PreferenceManager(this);
 
         binding.ccp.registerCarrierNumberEditText(binding.tietPhone);
         binding.btnContinue.setOnClickListener(v -> {
@@ -71,6 +76,14 @@ public class SignupFirstActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if (Util.isNotEmpty(preferenceManager.getPreviouslyEnteredPhoneNo())) {
+            binding.tietPhone.setText(preferenceManager.getPreviouslyEnteredPhoneNo());
+            Util.showKeyboard(binding.tietPhone);
+            if (binding.tietPhone.getText() != null) {
+                binding.tietPhone.setSelection(binding.tietPhone.getText().length()); //because there is a hyphen
+            }
+        }
     }
 
     @Override
@@ -83,7 +96,8 @@ public class SignupFirstActivity extends AppCompatActivity {
                 .setMessage(Html.fromHtml(getString(R.string.sure_to_send_an_sms, phoneNoStr)))
                 .setPositiveButton(android.R.string.ok,
                         (dialog, which) -> {
-                            Intent i = new Intent(SignupFirstActivity.this, VerifyOTPActivity.class);
+                            preferenceManager.setPreviouslyEnteredPhoneNo(phoneNoStr);
+                            Intent i = new Intent(FirstSignupActivity.this, VerifyOTPActivity.class);
                             i.putExtra(IntentExtraTag.PHONE_TO_VERIFY.getTag(), phoneNoStr);
                             startActivity(i);
                         })

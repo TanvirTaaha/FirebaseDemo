@@ -12,6 +12,7 @@ public class PreferenceManager {
         USER_EMAIL("userEmail"),
         USER_PASSWORD("userPassword"),
         USER_ID("userId"),
+        PHONE_NO_ENTERED_BEFORE("phoneNoEnteredBeforeForSignup"),
 
         ;
 
@@ -86,5 +87,13 @@ public class PreferenceManager {
 
     public String getUserId() {
         return sharedPreferences.getString(PreferenceKey.USER_ID.getKey(), "");
+    }
+
+    public void setPreviouslyEnteredPhoneNo(String previouslyEnteredPhoneNo) {
+        sharedPreferences.edit().putString(PreferenceKey.PHONE_NO_ENTERED_BEFORE.getKey(), previouslyEnteredPhoneNo).apply();
+    }
+
+    public String getPreviouslyEnteredPhoneNo() {
+        return sharedPreferences.getString(PreferenceKey.PHONE_NO_ENTERED_BEFORE.getKey(), "");
     }
 }

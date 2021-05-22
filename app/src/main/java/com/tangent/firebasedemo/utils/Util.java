@@ -41,4 +41,11 @@ public class Util {
         inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
         Timber.i("show keyboard called for:%s id:%d", editText.toString(), editText.getId());
     }
+
+    public static void hideKeyboard(EditText editText) {
+        editText.clearFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        Timber.i("hide keyboard called for:%s id:%d", editText.toString(), editText.getId());
+    }
 }
