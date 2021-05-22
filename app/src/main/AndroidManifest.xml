@@ -34,11 +34,14 @@
             android:name=".ui.MessagesActivity"
             android:label="Inbox"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
-        <activity android:name=".ui.VerifyOTPActivity" />
+        <activity
+            android:name=".ui.VerifyOTPActivity"
+            android:parentActivityName=".ui.SignupFirstActivity"
+            android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
         <activity android:name=".ui.HomeActivity2" />
         <activity android:name=".ui.SignUpActivity" />
         <activity android:name=".ui.LogInActivity" />
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

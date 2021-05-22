@@ -136,7 +136,10 @@ public class HomeActivity2 extends AppCompatActivity {
             }
         });
 
-        btnLogout.setOnClickListener(v -> FirebaseAuth.getInstance().signOut());
+        btnLogout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, SignupFirstActivity.class));
+        });
         findViewById(R.id.btngoto).setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, SignupFirstActivity.class)));
     }
 

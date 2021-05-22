@@ -8,8 +8,8 @@ import android.text.TextWatcher;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivitySignupFirstBinding;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
@@ -17,7 +17,7 @@ import com.tangent.firebasedemo.utils.IntentExtraTag;
 public class SignupFirstActivity extends AppCompatActivity {
     //vars
     private ActivitySignupFirstBinding binding;
-    private SignUpViewModel viewModel;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,7 @@ public class SignupFirstActivity extends AppCompatActivity {
         binding = ActivitySignupFirstBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
-
+        mAuth = FirebaseAuth.getInstance();
         binding.tvAppNameMessage.setText(getString(R.string.app_name_will_send_an_sms_message_to_verify_your_phone_number, getString(R.string.app_name)));
 
         binding.ccp.registerCarrierNumberEditText(binding.tietPhone);
@@ -74,19 +73,20 @@ public class SignupFirstActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private void showDialog(String phoneNoStr) {
         new AlertDialog.Builder(this)
                 .setMessage(Html.fromHtml(getString(R.string.sure_to_send_an_sms, phoneNoStr)))
                 .setPositiveButton(android.R.string.ok,
-                        (dialog, which) -> viewModel.sendVerificationCodeToPhone(phoneNoStr)
-                                .observe(SignupFirstActivity.this, aBoolean -> {
-                                    if (aBoolean) {
-                                        Intent i = new Intent(SignupFirstActivity.this,
-                                                VerifyOTPActivity.class);
-                                        i.putExtra(IntentExtraTag.PHONE_TO_VERIFY.getTag(), phoneNoStr);
-                                        startActivity(i);
-                                    }
-                                }))
+                        (dialog, which) -> {
+                            Intent i = new Intent(SignupFirstActivity.this, VerifyOTPActivity.class);
+                            i.putExtra(IntentExtraTag.PHONE_TO_VERIFY.getTag(), phoneNoStr);
+                            startActivity(i);
+                        })
                 .setNegativeButton(R.string.edit, (dialog, which) -> dialog.dismiss())
                 .show();
     }

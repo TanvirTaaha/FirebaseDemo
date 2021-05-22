@@ -5,21 +5,23 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.StartActivity">
 
     <Button
         android:id="@+id/btngotosignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Register" />
+        android:text="Register"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btngotologIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="LogIn" />
+        android:text="LogIn"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvLoggedIn"
@@ -31,4 +33,9 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/app_name" />
 </LinearLayout>

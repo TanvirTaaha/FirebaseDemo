@@ -2,6 +2,7 @@ package com.tangent.firebasedemo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.tangent.firebasedemo.R;
 
-public class MainActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     //vars
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
         
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         btngotosignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SignUpActivity.class));
+                startActivity(new Intent(StartActivity.this, SignUpActivity.class));
                 finish();
             }
         });
@@ -47,24 +48,23 @@ public class MainActivity extends AppCompatActivity {
         btngotologIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LogInActivity.class));
+                startActivity(new Intent(StartActivity.this, LogInActivity.class));
                 finish();
             }
         });
 
         tvLoggedIn = findViewById(R.id.tvLoggedIn);
+
+        new Handler().postDelayed(() -> {
+            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+            if (currentUser != null && !TextUtils.isEmpty(currentUser.getPhoneNumber())) {
+                tvLoggedIn.setVisibility(View.VISIBLE);
+                startActivity(new Intent(StartActivity.this, HomeActivity2.class));
+            } else {
+                startActivity(new Intent(StartActivity.this, SignupFirstActivity.class));
+            }
+            finish();
+        }, 1000);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //check if signed in already;
-        FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-        if (currentUser != null && !TextUtils.isEmpty(currentUser.getEmail())) {
-//            Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
-            tvLoggedIn.setVisibility(View.VISIBLE);
-            startActivity(new Intent(MainActivity.this, HomeActivity2.class));
-            finish();
-        }
-    }
 }

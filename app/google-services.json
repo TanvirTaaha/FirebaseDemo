@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1037116348296-5tsan0jdcu4dvi4vuerp2g8evalbouve.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tangent.firebasedemo",
+            "certificate_hash": "2aeffb9c76ebc72e7881e25a314aed1ca4f2b26d"
+          }
+        },
+        {
           "client_id": "1037116348296-jkkl44dj2jbilv4o266gtsetq51quphq.apps.googleusercontent.com",
           "client_type": 3
         }

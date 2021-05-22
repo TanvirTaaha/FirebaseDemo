@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +33,6 @@ public class SignUpActivity extends AppCompatActivity implements IView<SignUpMod
     private String mPassword;
     private PreferenceManager preferenceManager;
     private SignUpPresenter signUpPresenter;
-    private SignUpViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,6 @@ public class SignUpActivity extends AppCompatActivity implements IView<SignUpMod
 
 
         preferenceManager = new PreferenceManager(this);
-        viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
 
         binding.btnAlreadyRegisteredSignIn.setOnClickListener(v -> startActivity(new Intent(SignUpActivity.this, LogInActivity.class)));
@@ -123,7 +120,7 @@ public class SignUpActivity extends AppCompatActivity implements IView<SignUpMod
     }
 
     private void goToMainActivity() {
-        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+        startActivity(new Intent(SignUpActivity.this, StartActivity.class));
         finish();
     }
 

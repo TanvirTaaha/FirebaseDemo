@@ -36,4 +36,8 @@
     <string name="enter_otp_sent_to_phone_no">Enter otp sent to:<![CDATA[<br><b>%1$s</b>]]></string>
     <string name="couldn_t_retrieve_the_phone_no">Couldn\'t retrieve the phone no</string>
     <string name="verify">Verify</string>
+    <string name="go_back">Go back</string>
+    <string name="fill_up_the_code">Fill up the code!</string>
+    <string name="wrong_otp_error_message">Wrong OTP. Please enter the correct on from SMS</string>
+    <string name="resend">Resend</string>
 </resources>
