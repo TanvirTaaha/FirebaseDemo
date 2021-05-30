@@ -1,6 +1,7 @@
 package com.tangent.firebasedemo.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityVerifyOtpBinding;
+import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
 import com.tangent.firebasedemo.utils.Util;
 
@@ -53,6 +55,77 @@ public class VerifyOTPActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private CountDownTimer mCountDownTimer;
     private List<TextInputEditText> mEditTextList;
+
+
+    private void setupPinEditTextArray() {
+        mEditTextList = new ArrayList<>();
+        for (int i = 0; i < binding.llOTPEditText.getChildCount(); i++) {
+            int finalI = i;
+            TextInputEditText tiet = binding.llOTPEditText.getChildAt(i).findViewById(R.id.edittext);
+            mEditTextList.add(tiet);
+            tiet.addTextChangedListener(new OTPTextWatcher(i + 1));
+            tiet.setOnKeyListener((View v, int keyCode, KeyEvent event) -> {
+                if (event.getAction() != KeyEvent.ACTION_DOWN) {
+                    return false; //Don't get confused by this, it is because onKeyListener is called twice and this condition is to avoid it.
+                }
+                if (keyCode == KeyEvent.KEYCODE_DEL
+                        && TextUtils.isEmpty(tiet.getText())
+                        && finalI != 0) { //this condition is to handle the delete input by users.
+                    //delete the digit
+                    ((EditText) binding.llOTPEditText.getChildAt(finalI - 1).findViewById(R.id.edittext)).setText("");
+                    //and set focus to previous edittext
+                    binding.llOTPEditText.getChildAt(finalI - 1).requestFocus();
+                }
+                if (keyCode == KeyEvent.KEYCODE_DEL && Util.isNotEmpty(tiet.getText()) && finalI == binding.llOTPEditText.getChildCount() - 1) {
+                    tiet.setSelection(1);
+                }
+                return false;
+            });
+            tiet.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus && finalI > 0) {
+                    EditText prevET = binding.llOTPEditText.getChildAt(finalI - 1).findViewById(R.id.edittext);
+                    if (prevET.getText().toString().isEmpty()) {
+                        Util.showKeyboard(prevET);
+                    }
+                }
+                if (hasFocus && Util.isNotEmpty(tiet.getText()) && finalI < binding.llOTPEditText.getChildCount() - 1) {
+                    Util.showKeyboard(binding.llOTPEditText.getChildAt(finalI + 1).findViewById(R.id.edittext));
+                }
+            });
+        }
+    }
+
+    private void setPinDigits(CharSequence text) {
+        if (text.length() == 6) {
+            for (int i = 0; i < 6; i++) {
+                ((EditText) binding.llOTPEditText.getChildAt(i).findViewById(R.id.edittext)).setText(text.subSequence(i, i + 1));
+            }
+        }
+    }
+
+    @NonNull
+    private String getPinDigits() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            s.append(((EditText) binding.llOTPEditText.getChildAt(i).findViewById(R.id.edittext)).getText());
+        }
+        return s.toString();
+    }
+
+    private void startTimer() {
+        binding.btnResend.setEnabled(false);
+        binding.tvTimer.setVisibility(View.VISIBLE);
+        mCountDownTimer.start();
+        Timber.v("Timer started called");
+    }
+
+    private void dismissTimer() {
+        binding.btnResend.setEnabled(true);
+        binding.tvTimer.setVisibility(View.GONE);
+        mCountDownTimer.cancel();
+        Timber.v("Timer dismissed");
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,20 +243,6 @@ public class VerifyOTPActivity extends AppCompatActivity {
         });
     }
 
-    private void startTimer() {
-        binding.btnResend.setEnabled(false);
-        binding.tvTimer.setVisibility(View.VISIBLE);
-        mCountDownTimer.start();
-        Timber.v("Timer started called");
-    }
-
-    private void dismissTimer() {
-        binding.btnResend.setEnabled(true);
-        binding.tvTimer.setVisibility(View.GONE);
-        mCountDownTimer.cancel();
-        Timber.v("Timer dismissed");
-    }
-
     private void updateUi(@Nullable FirebaseUser user) {
         if (user == null) {
             Snackbar.make(binding.tvTopText, "User verification failed!", Snackbar.LENGTH_SHORT).show();
@@ -192,62 +251,17 @@ public class VerifyOTPActivity extends AppCompatActivity {
         }
         Timber.v("updateUi:Phone Sign in success:%s", user.getPhoneNumber());
         mProgressDialog.dismiss();
-        Snackbar.make(binding.tvTopText, "User verification Success!", Snackbar.LENGTH_SHORT).show();//todo
-    }
+        Snackbar.make(binding.tvTopText, "User verification Success!", Snackbar.LENGTH_SHORT).show();
+        UserModel userModel = new UserModel();
+        userModel.setId(user.getUid());
+        userModel.setPhoneNumber(user.getPhoneNumber());
+        userModel.setBio("");
+        userModel.setName("");
+        userModel.setProfilePicture("");
 
-    private void setupPinEditTextArray() {
-        mEditTextList = new ArrayList<>();
-        for (int i = 0; i < binding.llOTPEditText.getChildCount(); i++) {
-            int finalI = i;
-            TextInputEditText tiet = binding.llOTPEditText.getChildAt(i).findViewById(R.id.edittext);
-            mEditTextList.add(tiet);
-            tiet.addTextChangedListener(new OTPTextWatcher(i + 1));
-            tiet.setOnKeyListener((View v, int keyCode, KeyEvent event) -> {
-                if (event.getAction() != KeyEvent.ACTION_DOWN) {
-                    return false; //Don't get confused by this, it is because onKeyListener is called twice and this condition is to avoid it.
-                }
-                if (keyCode == KeyEvent.KEYCODE_DEL
-                        && TextUtils.isEmpty(tiet.getText())
-                        && finalI != 0) { //this condition is to handle the delete input by users.
-                    //delete the digit
-                    ((EditText) binding.llOTPEditText.getChildAt(finalI - 1).findViewById(R.id.edittext)).setText("");
-                    //and set focus to previous edittext
-                    binding.llOTPEditText.getChildAt(finalI - 1).requestFocus();
-                }
-                if (keyCode == KeyEvent.KEYCODE_DEL && Util.isNotEmpty(tiet.getText()) && finalI == binding.llOTPEditText.getChildCount() - 1) {
-                    tiet.setSelection(1);
-                }
-                return false;
-            });
-            tiet.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus && finalI > 0) {
-                    EditText prevET = binding.llOTPEditText.getChildAt(finalI - 1).findViewById(R.id.edittext);
-                    if (prevET.getText().toString().isEmpty()) {
-                        Util.showKeyboard(prevET);
-                    }
-                }
-                if (hasFocus && Util.isNotEmpty(tiet.getText()) && finalI < binding.llOTPEditText.getChildCount() - 1) {
-                    Util.showKeyboard(binding.llOTPEditText.getChildAt(finalI + 1).findViewById(R.id.edittext));
-                }
-            });
-        }
-    }
-
-    private void setPinDigits(CharSequence text) {
-        if (text.length() == 6) {
-            for (int i = 0; i < 6; i++) {
-                ((EditText) binding.llOTPEditText.getChildAt(i).findViewById(R.id.edittext)).setText(text.subSequence(i, i + 1));
-            }
-        }
-    }
-
-    @NonNull
-    private String getPinDigits() {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
-            s.append(((EditText) binding.llOTPEditText.getChildAt(i).findViewById(R.id.edittext)).getText());
-        }
-        return s.toString();
+        Intent i = new Intent(VerifyOTPActivity.this, SecondSignupActivity.class);
+        i.putExtra(IntentExtraTag.NEW_AUTHENTICATED_USER.getTag(), userModel);
+        startActivity(i);
     }
 
     class OTPTextWatcher implements TextWatcher {

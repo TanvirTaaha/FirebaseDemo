@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FireBaseDemo"
         tools:ignore="AllowBackup">
+        <activity android:name=".ui.main.CreateChatActivity"></activity>
         <activity
             android:name=".ui.SecondSignupActivity"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar"

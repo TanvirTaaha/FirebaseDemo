@@ -1,7 +1,11 @@
 package com.tangent.firebasedemo.utils;
 
 public enum IntentExtraTag {
-    PHONE_TO_VERIFY("phoneNumberToVerify");
+    PHONE_TO_VERIFY("phoneNumberToVerify"),
+    NEW_AUTHENTICATED_USER("newAuthenticatedUser"),
+    PREVIOUSLY_LOGGED_IN_USER("previouslyLoggedInUser"),
+
+    ;
 
     private final String tag;
 

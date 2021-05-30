@@ -4,7 +4,7 @@ import com.tangent.firebasedemo.model.BaseModel;
 
 import java.util.ArrayList;
 
-public class User extends BaseModel {
+public class UserModel extends BaseModel {
     private String id;
     private String name;
     private String phoneNumber;
@@ -12,10 +12,10 @@ public class User extends BaseModel {
     private String bio;
     private ArrayList<InboxItem> inbox;
 
-    public User() {
+    public UserModel() {
     }
 
-    public User(String id, String name, String phoneNumber, String profilePicture, String bio, ArrayList<InboxItem> inbox) {
+    public UserModel(String id, String name, String phoneNumber, String profilePicture, String bio, ArrayList<InboxItem> inbox) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;

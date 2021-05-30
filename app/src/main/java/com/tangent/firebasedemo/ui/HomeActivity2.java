@@ -24,7 +24,7 @@ import com.tangent.firebasedemo.adapter.KeyValueAdapter;
 import com.tangent.firebasedemo.data.MessagesDatabase;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
-import com.tangent.firebasedemo.model.firebasemodel.User;
+import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 import com.tangent.firebasedemo.ui.main.HomeActivity;
 
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class HomeActivity2 extends AppCompatActivity {
         rvRealTimeData.setAdapter(keyValueAdapter);
 
         databaseRefCities = FirebaseDatabase.getInstance().getReference().child("cities");
-        messagesDatabase = new MessagesDatabase();
+        messagesDatabase = MessagesDatabase.getInstance();
 
         getAllDataFromDatabase(false);
 
@@ -180,6 +180,6 @@ public class HomeActivity2 extends AppCompatActivity {
 
     MessagesDatabase messagesDatabase;
     private void test(String key, String value) {
-        messagesDatabase.createUser(new User("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
+        messagesDatabase.createUser(new UserModel("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
     }
 }

@@ -2,15 +2,19 @@ package com.tangent.firebasedemo.data;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.tangent.firebasedemo.model.firebasemodel.Conversation;
 import com.tangent.firebasedemo.model.firebasemodel.InboxItem;
-import com.tangent.firebasedemo.model.firebasemodel.User;
+import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 import com.tangent.firebasedemo.utils.Util;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,8 +26,15 @@ import timber.log.Timber;
 public class MessagesDatabase {
     private final DatabaseReference messagesBranch;
     private final DatabaseReference usersBranch;
+    private DatabaseReference currentUserRef;
+    private static MessagesDatabase mInstance;
 
-    public MessagesDatabase() {
+    public static synchronized MessagesDatabase getInstance() {
+        if (mInstance == null) mInstance = new MessagesDatabase();
+        return mInstance;
+    }
+
+    private MessagesDatabase() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         messagesBranch = db.getReference().child(Util.BRANCH_MESSAGES);
         usersBranch = db.getReference().child(Util.BRANCH_USERS);
@@ -68,9 +79,9 @@ public class MessagesDatabase {
         usersBranch.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String pushId = snapshot.getKey();
-                snapshot.getRef().keepSynced(true);
-                snapshot.getRef().child("id").setValue(pushId);
+//                String pushId = snapshot.getKey();
+//                snapshot.getRef().keepSynced(true);
+//                snapshot.getRef().child("id").setValue(pushId);
                 Timber.i("User:added called %s", snapshot.toString());
             }
 
@@ -96,28 +107,38 @@ public class MessagesDatabase {
         });
     }
 
-    public void createUser(User user) {
-        usersBranch.push().setValue(user).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//
-//            }
-        });
+    public Task<Void> createUser(UserModel user) {
+        if (user.getInbox() == null) {
+            user.setInbox(new ArrayList<>());
+        }
+        return usersBranch.child(user.getId()).setValue(user);
     }
 
-    public User getUserFromInternet(String id) {
-        final User[] user = new User[1];
-        DatabaseReference reference = usersBranch.child(id);
-        reference.get().addOnCompleteListener(task -> {
+    public LiveData<UserModel> getUserFromInternet(String id) {
+        MutableLiveData<UserModel> userModelLD = new MutableLiveData<>();
+        currentUserRef = usersBranch.child(id);
+        currentUserRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
-                user[0] = task.getResult().getValue(User.class);
-                reference.keepSynced(true);
+                userModelLD.setValue(task.getResult().getValue(UserModel.class));
+                currentUserRef.keepSynced(true);
             }
         });
-        return user[0];
+        currentUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                userModelLD.setValue(snapshot.getValue(UserModel.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                Timber.e(error.getMessage());
+            }
+        });
+        return userModelLD;
     }
 
     public ArrayList<Conversation> getAllConversationForUID(String uid) {
-        User user = getUserFromInternet(uid);
+        UserModel user = getUserFromInternet(uid).getValue();
         final ArrayList<Conversation> conversations = new ArrayList<>();
         for (InboxItem item : user.getInbox()) {
             final Conversation[] conv = new Conversation[1];

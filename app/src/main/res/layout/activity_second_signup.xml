@@ -1,10 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.SecondSignupActivity">
 
+    <TextView
+        android:id="@+id/tvTopText"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/profile_info"
+        android:textColor="?android:textColorPrimary" />
 
-</ScrollView>
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTopText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="16dp"
+        android:gravity="center"
+        android:text="@string/please_provide_your_name_and_an_optional_profile_photo" />
+
+    <ImageView
+        android:id="@+id/ivProPic"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_below="@id/tvDesc"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/profile_photo"
+        android:src="@drawable/user_avatar" />
+
+    <LinearLayout
+        android:id="@+id/llNameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivProPic"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:hint="@string/type_your_name_here"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName" />
+
+        <ImageButton
+            android:id="@+id/ibEmoji"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/pick_emoji"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/emoticon_picker_button_bg" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/next" />
+</RelativeLayout>
