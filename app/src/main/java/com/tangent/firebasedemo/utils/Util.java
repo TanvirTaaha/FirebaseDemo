@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.fragment.app.Fragment;
+
 import timber.log.Timber;
 
 public class Util {
@@ -47,5 +49,16 @@ public class Util {
         InputMethodManager inputMethodManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         Timber.i("hide keyboard called for:%s id:%d", editText.toString(), editText.getId());
+    }
+
+    /**
+     * https://stackoverflow.com/q/20812922/8928251
+     *
+     * @param fragment the fragment to close
+     */
+    public static void closeFragment(Fragment fragment) {
+        if (fragment.getActivity() != null) {
+            fragment.getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
     }
 }

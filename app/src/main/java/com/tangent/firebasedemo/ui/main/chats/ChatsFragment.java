@@ -1,17 +1,20 @@
 package com.tangent.firebasedemo.ui.main.chats;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.tangent.firebasedemo.databinding.FragmentChatsBinding;
+import com.tangent.firebasedemo.ui.main.CreateChatActivity;
+import com.tangent.firebasedemo.ui.main.HomeActivityViewModel;
+import com.tangent.firebasedemo.utils.Util;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -19,14 +22,17 @@ import com.tangent.firebasedemo.databinding.FragmentChatsBinding;
 public class ChatsFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_VIEW_MODEL = "view_model";
+    public static final int REQUEST_CODE_READ_CONTACTS = 1;
 
-    private ChatsFragmentViewModel chatsFragmentViewModel;
+    private HomeActivityViewModel homeActivityViewModel;
     private FragmentChatsBinding binding;
 
-    public static ChatsFragment newInstance(int index) {
+    public static ChatsFragment newInstance(int index, HomeActivityViewModel viewModel) {
         ChatsFragment fragment = new ChatsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
+        bundle.putSerializable(ARG_VIEW_MODEL, viewModel);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -34,7 +40,14 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        chatsFragmentViewModel = new ViewModelProvider(this).get(ChatsFragmentViewModel.class);
+        if (getArguments() != null) {
+            homeActivityViewModel = (HomeActivityViewModel) getArguments().getSerializable(ARG_VIEW_MODEL);
+        } else {
+            if (getActivity() != null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Something went wrong!", Toast.LENGTH_LONG).show();
+            }
+            Util.closeFragment(this);
+        }
 //        int index = 1;
 //        if (getArguments() != null) {
 //            index = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -56,11 +69,7 @@ public class ChatsFragment extends Fragment {
 //        });
 
         FloatingActionButton fab = binding.fab;
-        fab.setOnClickListener(view -> {
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-
-        });
+        fab.setOnClickListener(view -> startActivity(new Intent(getActivity(), CreateChatActivity.class)));
         return root;
     }
 
@@ -69,4 +78,6 @@ public class ChatsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

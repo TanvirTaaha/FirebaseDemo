@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.KeyValueAdapter;
-import com.tangent.firebasedemo.data.MessagesDatabase;
+import com.tangent.firebasedemo.repo.MessagesDatabase;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;

@@ -3,6 +3,17 @@ package com.tangent.firebasedemo.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.tangent.firebasedemo.model.PhoneContactModel;
+import com.tangent.firebasedemo.model.firebasemodel.UserModel;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public class PreferenceManager {
 
     private enum PreferenceKey {
@@ -13,6 +24,8 @@ public class PreferenceManager {
         USER_PASSWORD("userPassword"),
         USER_ID("userId"),
         PHONE_NO_ENTERED_BEFORE("phoneNoEnteredBeforeForSignup"),
+        PHONE_CONTACT_ARRAYLIST("phoneContactArrayList"),
+        PREVIOUSLY_LOGGED_IN_USER("previouslyLoggedInUser"),
 
         ;
 
@@ -27,8 +40,8 @@ public class PreferenceManager {
         }
     }
 
-    private Context context;
-    private SharedPreferences sharedPreferences;
+    private final Context context;
+    private final SharedPreferences sharedPreferences;
     private static final String SHARED_PREFERENCES_FILE = "selfishhStorage";
 
     public PreferenceManager(Context context) {
@@ -95,5 +108,45 @@ public class PreferenceManager {
 
     public String getPreviouslyEnteredPhoneNo() {
         return sharedPreferences.getString(PreferenceKey.PHONE_NO_ENTERED_BEFORE.getKey(), "");
+    }
+
+    /**
+     * https://stackoverflow.com/a/22985657/8928251
+     *
+     * @param arrayList Module.getContactArrayList
+     */
+    public void setContactArrayList(@NonNull ArrayList<PhoneContactModel> arrayList) {
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList);
+        sharedPreferences.edit().putString(PreferenceKey.PHONE_CONTACT_ARRAYLIST.getKey(), json).apply();
+    }
+
+    /**
+     * https://stackoverflow.com/a/22985657/8928251
+     *
+     * @return Module.getContactArrayList
+     */
+    @Nullable
+    public ArrayList<PhoneContactModel> getContactArrayList() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(PreferenceKey.PHONE_CONTACT_ARRAYLIST.getKey(), "");
+        Type type = new TypeToken<ArrayList<PhoneContactModel>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public void setCurrentUserModel(@NonNull UserModel userModel) {
+        Gson gson = new Gson();
+        String json = gson.toJson(userModel);
+        sharedPreferences.edit().putString(PreferenceKey.PREVIOUSLY_LOGGED_IN_USER.getKey(), json).apply();
+    }
+
+    @Nullable
+    public UserModel getCurrentUserModel() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(PreferenceKey.PREVIOUSLY_LOGGED_IN_USER.getKey(), "");
+        Type type = new TypeToken<UserModel>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
 }

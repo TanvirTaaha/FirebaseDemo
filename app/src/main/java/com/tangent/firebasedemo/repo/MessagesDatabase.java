@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.data;
+package com.tangent.firebasedemo.repo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

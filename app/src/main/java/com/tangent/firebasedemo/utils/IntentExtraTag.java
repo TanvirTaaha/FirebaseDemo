@@ -4,6 +4,7 @@ public enum IntentExtraTag {
     PHONE_TO_VERIFY("phoneNumberToVerify"),
     NEW_AUTHENTICATED_USER("newAuthenticatedUser"),
     PREVIOUSLY_LOGGED_IN_USER("previouslyLoggedInUser"),
+    PERMISSION_CONTACT_READ("permissionForContactRead"),
 
     ;
 

@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.main.chats;
+package com.tangent.firebasedemo.ui.main;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.tangent.firebasedemo.data.MessagesDatabase;
+import com.tangent.firebasedemo.repo.MessagesDatabase;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 
-public class ChatsFragmentViewModel extends ViewModel {
+import java.io.Serializable;
+
+public class HomeActivityViewModel extends ViewModel implements Serializable {
     private MessagesDatabase db = MessagesDatabase.getInstance();
     private MutableLiveData<Integer> mIndex = new MutableLiveData<>();
     private LiveData<String> mText = Transformations.map(mIndex, new Function<Integer, String>() {

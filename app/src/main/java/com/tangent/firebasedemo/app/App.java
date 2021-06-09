@@ -7,22 +7,33 @@ import com.tangent.firebasedemo.BuildConfig;
 import com.tangent.firebasedemo.utils.TagTree;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import timber.log.Timber;
 
 public class App extends Application {
-    private static WeakReference<Context> mContext;
-
+    private static WeakReference<App> mInstance;
+    private ExecutorService executorService;
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = new WeakReference<>(this);
+        mInstance = new WeakReference<>(this);
+        executorService = Executors.newFixedThreadPool(1);
         if (BuildConfig.DEBUG) {
             Timber.plant(new TagTree("Taaha", true));
         }
     }
 
     public static Context getAppContext() {
-        return mContext.get();
+        return mInstance.get();
+    }
+
+    public static App getInstance() {
+        return mInstance.get();
+    }
+
+    public ExecutorService getExecutorService() {
+        return executorService;
     }
 }

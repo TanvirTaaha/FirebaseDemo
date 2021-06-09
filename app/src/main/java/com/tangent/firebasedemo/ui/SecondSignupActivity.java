@@ -8,10 +8,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.tangent.firebasedemo.data.MessagesDatabase;
 import com.tangent.firebasedemo.databinding.ActivitySecondSignupBinding;
 import com.tangent.firebasedemo.model.firebasemodel.InboxItem;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
+import com.tangent.firebasedemo.repo.MessagesDatabase;
 import com.tangent.firebasedemo.ui.main.HomeActivity;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
 
@@ -51,8 +51,8 @@ public class SecondSignupActivity extends AppCompatActivity {
                     .addOnSuccessListener(unused -> {
                         Intent i = new Intent(SecondSignupActivity.this, HomeActivity.class);
                         i.putExtra(IntentExtraTag.PREVIOUSLY_LOGGED_IN_USER.getTag(), mUserModel);
-                        startActivity(i);
                         finish();
+                        startActivity(i);
                     })
                     .addOnFailureListener(e -> {
                         Snackbar.make(v, "Server error!", Snackbar.LENGTH_SHORT).show();
