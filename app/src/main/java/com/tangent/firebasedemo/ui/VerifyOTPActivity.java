@@ -26,7 +26,6 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityVerifyOtpBinding;
-import com.tangent.firebasedemo.databinding.SinglePinEdittextBinding;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 import com.tangent.firebasedemo.utils.AbstractTextWatcher;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
@@ -44,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 import timber.log.Timber;
 
 public class VerifyOTPActivity extends AppCompatActivity {
-SinglePinEdittextBinding singlePinEdittextBinding;
+
     //vars
     private ActivityVerifyOtpBinding binding;
     private String phoneNoToVerify;
