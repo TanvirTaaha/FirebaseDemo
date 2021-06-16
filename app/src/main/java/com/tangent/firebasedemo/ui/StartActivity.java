@@ -6,19 +6,16 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.tangent.firebasedemo.app.App;
 import com.tangent.firebasedemo.databinding.ActivityStartBinding;
-import com.tangent.firebasedemo.model.firebasemodel.UserModel;
-import com.tangent.firebasedemo.repo.MessagesDatabase;
-import com.tangent.firebasedemo.repo.PhoneContactsRepo;
-import com.tangent.firebasedemo.ui.main.HomeActivity;
-import com.tangent.firebasedemo.utils.IntentExtraTag;
+import com.tangent.firebasedemo.repository.PhoneContactsRepo;
+import com.tangent.firebasedemo.ui.home.HomeActivity;
+import com.tangent.firebasedemo.utils.PreferenceManager;
+import com.tangent.firebasedemo.utils.Util;
 
 import timber.log.Timber;
 
@@ -36,32 +33,30 @@ public class StartActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        new Handler().postDelayed(() -> {
-            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-            if (currentUser != null && !TextUtils.isEmpty(currentUser.getPhoneNumber())) {
-                UserModel userModel = MessagesDatabase.getInstance().getUserFromInternet(currentUser.getUid()).getValue();
-                Intent i = new Intent(StartActivity.this, HomeActivity.class);
-                i.putExtra(IntentExtraTag.PREVIOUSLY_LOGGED_IN_USER.getTag(), userModel);
-                startActivity(i);
-            } else {
-                startActivity(new Intent(StartActivity.this, FirstSignupActivity.class));
+        //load contacts in the background
+        if (permissionGranted()) {
+            try {
+                Timber.i("Loading Contacts");
+                PhoneContactsRepo.getInstance().refreshContent();
+            } catch (ClassCastException e) {
+                e.printStackTrace();
             }
-            finish();
-        }, 1000);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (permissionGranted()) {
-            try {
-                Timber.i("Loading Contacts");
-                new PhoneContactsRepo(this, ((App) getApplication()).getExecutorService())
-                        .loadContacts(true);
-            } catch (ClassCastException e) {
-                e.printStackTrace();
+        new Handler().postDelayed(() -> {
+            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+            if (currentUser != null && Util.isNotEmpty(currentUser.getPhoneNumber())) {
+                new PreferenceManager(this).setUserId(currentUser.getUid());
+                startActivity(new Intent(StartActivity.this, HomeActivity.class));
+            } else {
+                startActivity(new Intent(StartActivity.this, FirstSignupActivity.class));
             }
-        }
+            finish();
+        }, 1000);
     }
 
     public boolean permissionGranted() {

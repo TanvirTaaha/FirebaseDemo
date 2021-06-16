@@ -3,6 +3,6 @@
     <declare-styleable name="AnimButton">
         <attr name="first" format="reference"/>
         <attr name="second" format="reference"/>
-        <attr name="duration" format="integer"/>
+        <attr name="time_duration" format="integer"/>
     </declare-styleable>
 </resources>

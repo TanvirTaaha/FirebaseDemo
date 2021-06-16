@@ -16,8 +16,8 @@
         android:theme="@style/Theme.FireBaseDemo"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".ui.main.CreateChatActivity"
-            android:parentActivityName=".ui.main.HomeActivity"
+            android:name=".ui.home.CreateChatActivity"
+            android:parentActivityName=".ui.home.HomeActivity"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar"
             android:windowSoftInputMode="adjustResize">
 <!--            <intent-filter>-->
@@ -48,11 +48,11 @@
         </service>
 
         <activity
-            android:name=".ui.main.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
         <activity
-            android:name=".ui.MessagesActivity"
+            android:name=".ui.inbox.InboxActivity"
             android:label="Inbox"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
         <activity

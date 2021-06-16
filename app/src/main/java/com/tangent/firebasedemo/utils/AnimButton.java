@@ -2,12 +2,10 @@ package com.tangent.firebasedemo.utils;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -15,8 +13,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.tangent.firebasedemo.R;
+
+import java.util.Objects;
 
 /**
  * Created by Günhan on 17.08.2015.
@@ -61,7 +62,7 @@ public class AnimButton extends AppCompatImageButton {
         if (array != null) {
             firstResourceId = array.getResourceId(R.styleable.AnimButton_first, -1);
             secondResourceId = array.getResourceId(R.styleable.AnimButton_second, -1);
-            duration = array.getInteger(R.styleable.AnimButton_duration, duration);
+            duration = array.getInteger(R.styleable.AnimButton_time_duration, duration);
 
             array.recycle();
         }
@@ -73,14 +74,11 @@ public class AnimButton extends AppCompatImageButton {
         if (firstResourceId > 0 && secondResourceId > 0) {
             init = true;
 
-            Resources resources = getResources();
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                firstDrawable = resources.getDrawable(firstResourceId, null).mutate();
-                secondDrawable = resources.getDrawable(secondResourceId, null).mutate();
-            } else {
-                firstDrawable = resources.getDrawable(firstResourceId).mutate();
-                secondDrawable = resources.getDrawable(secondResourceId).mutate();
+            try {
+                firstDrawable = Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), firstResourceId, null)).mutate();
+                secondDrawable = Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), secondResourceId, null)).mutate();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
 
             setImageDrawable(firstDrawable);

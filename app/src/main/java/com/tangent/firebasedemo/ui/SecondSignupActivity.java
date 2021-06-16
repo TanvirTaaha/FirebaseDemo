@@ -11,8 +11,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.tangent.firebasedemo.databinding.ActivitySecondSignupBinding;
 import com.tangent.firebasedemo.model.firebasemodel.InboxItem;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
-import com.tangent.firebasedemo.repo.MessagesDatabase;
-import com.tangent.firebasedemo.ui.main.HomeActivity;
+import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
+import com.tangent.firebasedemo.ui.home.HomeActivity;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class SecondSignupActivity extends AppCompatActivity {
             mUserModel.setName(name);
             ArrayList<InboxItem> inbox = new ArrayList<>();
             mUserModel.setInbox(inbox); //empty inbox
-            MessagesDatabase database = MessagesDatabase.getInstance();
+            FirebaseDatabaseRepo database = FirebaseDatabaseRepo.getInstance();
             database.createUser(mUserModel)
                     .addOnSuccessListener(unused -> {
                         Intent i = new Intent(SecondSignupActivity.this, HomeActivity.class);

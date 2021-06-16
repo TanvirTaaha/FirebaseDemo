@@ -1,7 +1,10 @@
 package com.tangent.firebasedemo.model.firebasemodel;
 
+import androidx.room.Entity;
+
 import com.tangent.firebasedemo.model.BaseModel;
 
+@Entity
 public class InboxItem extends BaseModel {
     private String conversation_id;
     private String time;

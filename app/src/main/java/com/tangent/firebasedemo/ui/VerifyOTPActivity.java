@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -27,7 +26,9 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityVerifyOtpBinding;
+import com.tangent.firebasedemo.databinding.SinglePinEdittextBinding;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
+import com.tangent.firebasedemo.utils.AbstractTextWatcher;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
 import com.tangent.firebasedemo.utils.Util;
 
@@ -43,12 +44,12 @@ import java.util.concurrent.TimeUnit;
 import timber.log.Timber;
 
 public class VerifyOTPActivity extends AppCompatActivity {
-
+SinglePinEdittextBinding singlePinEdittextBinding;
     //vars
     private ActivityVerifyOtpBinding binding;
     private String phoneNoToVerify;
     private String mVerificationId;
-    private String mOTP;
+    private String mOTPDigits;
     private PhoneAuthProvider.ForceResendingToken token;
     private static final long CODE_TIMEOUT = 60L;
     private FirebaseAuth mAuth;
@@ -163,8 +164,8 @@ public class VerifyOTPActivity extends AppCompatActivity {
                 return;
             }
             binding.tvOTPError.setVisibility(View.GONE);
-            mOTP = getPinDigits();
-            authenticateUser(PhoneAuthProvider.getCredential(mVerificationId, mOTP));
+            mOTPDigits = getPinDigits();
+            authenticateUser(PhoneAuthProvider.getCredential(mVerificationId, mOTPDigits));
         });
 
         binding.btnResend.setOnClickListener(v -> sendOTP(true));
@@ -204,10 +205,10 @@ public class VerifyOTPActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCodeSent(@NonNull @NotNull String s, @NonNull @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                        super.onCodeSent(s, forceResendingToken);
-                        Timber.v("Code sent to %s: verificationId:%s, token:%s", phoneNoToVerify, s, forceResendingToken.toString());
-                        mVerificationId = s;
+                    public void onCodeSent(@NonNull @NotNull String verificationId, @NonNull @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        super.onCodeSent(verificationId, forceResendingToken);
+                        Timber.v("Code sent to %s: verificationId:%s, token:%s", phoneNoToVerify, verificationId, forceResendingToken.toString());
+                        mVerificationId = verificationId;
                         token = forceResendingToken;
                         startTimer();
                     }
@@ -264,7 +265,7 @@ public class VerifyOTPActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    class OTPTextWatcher implements TextWatcher {
+    class OTPTextWatcher extends AbstractTextWatcher {
         int position;
 
         private OTPTextWatcher(int position) {
@@ -295,11 +296,6 @@ public class VerifyOTPActivity extends AppCompatActivity {
                         mEditTextList.get(position).requestFocus(); //next
                     break;
             }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override

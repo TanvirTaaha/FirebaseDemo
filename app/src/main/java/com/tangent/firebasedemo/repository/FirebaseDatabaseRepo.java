@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.repo;
+package com.tangent.firebasedemo.repository;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,18 +23,18 @@ import java.util.ArrayList;
 
 import timber.log.Timber;
 
-public class MessagesDatabase {
+public class FirebaseDatabaseRepo {
     private final DatabaseReference messagesBranch;
     private final DatabaseReference usersBranch;
     private DatabaseReference currentUserRef;
-    private static MessagesDatabase mInstance;
+    private static FirebaseDatabaseRepo mInstance;
 
-    public static synchronized MessagesDatabase getInstance() {
-        if (mInstance == null) mInstance = new MessagesDatabase();
+    public static synchronized FirebaseDatabaseRepo getInstance() {
+        if (mInstance == null) mInstance = new FirebaseDatabaseRepo();
         return mInstance;
     }
 
-    private MessagesDatabase() {
+    private FirebaseDatabaseRepo() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         messagesBranch = db.getReference().child(Util.BRANCH_MESSAGES);
         usersBranch = db.getReference().child(Util.BRANCH_USERS);
@@ -114,7 +114,7 @@ public class MessagesDatabase {
         return usersBranch.child(user.getId()).setValue(user);
     }
 
-    public LiveData<UserModel> getUserFromInternet(String id) {
+    public LiveData<UserModel> getUserFromInternet(@NonNull String id) {
         MutableLiveData<UserModel> userModelLD = new MutableLiveData<>();
         currentUserRef = usersBranch.child(id);
         currentUserRef.get().addOnCompleteListener(task -> {
@@ -137,7 +137,7 @@ public class MessagesDatabase {
         return userModelLD;
     }
 
-    public ArrayList<Conversation> getAllConversationForUID(String uid) {
+    public ArrayList<Conversation> getAllConversationForUID(@NonNull String uid) {
         UserModel user = getUserFromInternet(uid).getValue();
         final ArrayList<Conversation> conversations = new ArrayList<>();
         for (InboxItem item : user.getInbox()) {

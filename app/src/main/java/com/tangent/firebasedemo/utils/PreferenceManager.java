@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tangent.firebasedemo.R;
+import com.tangent.firebasedemo.app.App;
 import com.tangent.firebasedemo.model.PhoneContactModel;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 
@@ -29,7 +31,7 @@ public class PreferenceManager {
 
         ;
 
-        private String key;
+        private final String key;
 
         PreferenceKey(String key) {
             this.key = key;
@@ -42,12 +44,16 @@ public class PreferenceManager {
 
     private final Context context;
     private final SharedPreferences sharedPreferences;
-    private static final String SHARED_PREFERENCES_FILE = "selfishhStorage";
+    private static final String SHARED_PREFERENCES_FILE = App.getInstance().getResources().getString(R.string.app_name) + "Preferences";
 
     public PreferenceManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_FILE,
                 Context.MODE_PRIVATE);
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public void deleteAllSharedPreferences() {

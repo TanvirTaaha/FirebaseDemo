@@ -21,11 +21,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.KeyValueAdapter;
-import com.tangent.firebasedemo.repo.MessagesDatabase;
+import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
-import com.tangent.firebasedemo.ui.main.HomeActivity;
+import com.tangent.firebasedemo.ui.home.HomeActivity;
+import com.tangent.firebasedemo.ui.inbox.InboxActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -74,7 +75,7 @@ public class HomeActivity2 extends AppCompatActivity {
         rvRealTimeData.setAdapter(keyValueAdapter);
 
         databaseRefCities = FirebaseDatabase.getInstance().getReference().child("cities");
-        messagesDatabase = MessagesDatabase.getInstance();
+        firebaseDatabaseRepo = FirebaseDatabaseRepo.getInstance();
 
         getAllDataFromDatabase(false);
 
@@ -87,7 +88,7 @@ public class HomeActivity2 extends AppCompatActivity {
         btnAddData.setOnClickListener(v -> test(etKey.getText().toString().trim(), etValue.getText().toString().trim()));
 
 
-        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, MessagesActivity.class)));
+        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, InboxActivity.class)));
         btnHomeAct1.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, HomeActivity.class)));
 
         databaseRefCities.addChildEventListener(new ChildEventListener() {
@@ -178,8 +179,8 @@ public class HomeActivity2 extends AppCompatActivity {
         });
     }
 
-    MessagesDatabase messagesDatabase;
+    FirebaseDatabaseRepo firebaseDatabaseRepo;
     private void test(String key, String value) {
-        messagesDatabase.createUser(new UserModel("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
+        firebaseDatabaseRepo.createUser(new UserModel("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
     }
 }

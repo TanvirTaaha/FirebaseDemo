@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.main;
+package com.tangent.firebasedemo.ui.home;
 
 import android.Manifest;
 import android.app.Activity;
@@ -28,6 +28,7 @@ public class CreateChatActivity extends AppCompatActivity {
     private ActivityCreateChatBinding binding;
     private CreateChatViewModel viewModel;
     private CreateChatContactsAdapter contactsAdapter;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +41,11 @@ public class CreateChatActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        viewModel = new ViewModelProvider(this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()))
-                .get(CreateChatViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CreateChatViewModel.class);
 
-        proceedAfterPermission();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.setMessage("Loading");
 
         contactsAdapter = new CreateChatContactsAdapter(this,
                 new ArrayList<>());
@@ -52,6 +53,17 @@ public class CreateChatActivity extends AppCompatActivity {
         binding.rcvContacts.setAdapter(contactsAdapter);
 
         setupSearchView();
+
+        viewModel.getContactCount().observe(this,
+                integer -> binding.toolbarCreateChat.setSubtitle("" + integer + " Contacts"));
+
+        viewModel.getContactList().observe(this, list -> {
+            mProgressDialog.dismiss();
+            contactsAdapter.getList().addAll(0, list);
+            contactsAdapter.notifyDataSetChanged();
+        });
+
+        proceedAfterPermission();
     }
 
     /**
@@ -89,7 +101,7 @@ public class CreateChatActivity extends AppCompatActivity {
 
         binding.searchView.setMenuItem(menu.findItem(R.id.menu_search));
         menu.findItem(R.id.menu_refresh).setOnMenuItemClickListener(item -> {
-            viewModel.refreshContacts();
+            reloadPage(); //Force reload
             return true;
         });
         return true;
@@ -110,9 +122,11 @@ public class CreateChatActivity extends AppCompatActivity {
                 Timber.d("sending permission");
                 requestForPermission();
             } else {
-                Timber.d("already granted");
-                initializeWithViewModel();
+                Timber.d("already was granted");
             }
+        } else {
+            Timber.d("version is less than 'M'");
+            reloadPage();
         }
     }
 
@@ -121,7 +135,7 @@ public class CreateChatActivity extends AppCompatActivity {
             Timber.d("Permission callback");
             if (isGranted) {
                 Timber.v("Granted");
-                initializeWithViewModel();
+                reloadPage(); //First time after app install
             } else {
                 Timber.i("Not granted");
                 Toast.makeText(getApplicationContext(), "Needed permission for reading contacts to create chat", Toast.LENGTH_LONG).show();
@@ -131,21 +145,8 @@ public class CreateChatActivity extends AppCompatActivity {
         }).launch(Manifest.permission.READ_CONTACTS);
     }
 
-    private void initializeWithViewModel() {
-        ProgressDialog _progressDialog = new ProgressDialog(this);
-        _progressDialog.setCanceledOnTouchOutside(false);
-        _progressDialog.setMessage("Loading");
-        _progressDialog.show();
-
-        viewModel.loadContacts();
-        viewModel.getContactCount().observe(this,
-                integer -> binding.toolbarCreateChat.setSubtitle("" + integer + " Contacts"));
-
-        viewModel.getContactList().observe(this, list -> {
-            _progressDialog.dismiss();
-            contactsAdapter.getList().addAll(0, list);
-            contactsAdapter.notifyDataSetChanged();
-        });
-
+    private void reloadPage() {
+        mProgressDialog.show();
+        viewModel.refreshContacts();
     }
 }

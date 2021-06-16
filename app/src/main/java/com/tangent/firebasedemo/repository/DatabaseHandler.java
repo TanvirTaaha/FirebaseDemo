@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.repo;
+package com.tangent.firebasedemo.repository;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.main;
+package com.tangent.firebasedemo.ui.home;
 
 import android.content.Context;
 import android.view.LayoutInflater;

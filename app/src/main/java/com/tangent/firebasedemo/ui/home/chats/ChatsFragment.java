@@ -1,19 +1,19 @@
-package com.tangent.firebasedemo.ui.main.chats;
+package com.tangent.firebasedemo.ui.home.chats;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tangent.firebasedemo.databinding.FragmentChatsBinding;
-import com.tangent.firebasedemo.ui.main.CreateChatActivity;
-import com.tangent.firebasedemo.ui.main.HomeActivityViewModel;
+import com.tangent.firebasedemo.ui.home.CreateChatActivity;
+import com.tangent.firebasedemo.ui.home.HomeActivity;
+import com.tangent.firebasedemo.ui.home.HomeActivityViewModel;
 import com.tangent.firebasedemo.utils.Util;
 
 /**
@@ -22,17 +22,15 @@ import com.tangent.firebasedemo.utils.Util;
 public class ChatsFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String ARG_VIEW_MODEL = "view_model";
     public static final int REQUEST_CODE_READ_CONTACTS = 1;
 
     private HomeActivityViewModel homeActivityViewModel;
     private FragmentChatsBinding binding;
 
-    public static ChatsFragment newInstance(int index, HomeActivityViewModel viewModel) {
+    public static ChatsFragment newInstance(int index) {
         ChatsFragment fragment = new ChatsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
-        bundle.putSerializable(ARG_VIEW_MODEL, viewModel);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -40,12 +38,9 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            homeActivityViewModel = (HomeActivityViewModel) getArguments().getSerializable(ARG_VIEW_MODEL);
+        if (getActivity() != null) {
+            homeActivityViewModel = ((HomeActivity) getActivity()).getViewModel();
         } else {
-            if (getActivity() != null) {
-                Toast.makeText(getActivity().getApplicationContext(), "Something went wrong!", Toast.LENGTH_LONG).show();
-            }
             Util.closeFragment(this);
         }
 //        int index = 1;
@@ -58,7 +53,6 @@ public class ChatsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentChatsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
 //        final TextView textView = binding.sectionLabel;
 //        chatsFragmentViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -70,7 +64,7 @@ public class ChatsFragment extends Fragment {
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(view -> startActivity(new Intent(getActivity(), CreateChatActivity.class)));
-        return root;
+        return binding.getRoot();
     }
 
     @Override

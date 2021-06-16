@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.main;
+package com.tangent.firebasedemo.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityHomeBinding;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
-import com.tangent.firebasedemo.ui.main.chats.ChatsFragment;
-import com.tangent.firebasedemo.utils.IntentExtraTag;
+import com.tangent.firebasedemo.ui.home.chats.ChatsFragment;
 import com.tangent.firebasedemo.utils.PreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,12 +36,8 @@ public class HomeActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(this);
         viewModel = new ViewModelProvider(this).get(HomeActivityViewModel.class);
 
-        if (getIntent().hasExtra(IntentExtraTag.PREVIOUSLY_LOGGED_IN_USER.getTag())) {
-            mUserModel = (UserModel) getIntent().getSerializableExtra(IntentExtraTag.PREVIOUSLY_LOGGED_IN_USER.getTag());
-            preferenceManager.setCurrentUserModel(mUserModel);
-        } else {
-            mUserModel = preferenceManager.getCurrentUserModel();
-        }
+        mUserModel = preferenceManager.getCurrentUserModel();
+
 
         setupTabWithViewPager();
     }
@@ -82,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         @NotNull
         @Override
         public Fragment createFragment(int position) {
-            return ChatsFragment.newInstance(position + 1, mActivity.getViewModel());
+            return ChatsFragment.newInstance(position + 1);
         }
 
         @Override

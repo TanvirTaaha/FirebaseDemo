@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.FireBaseDemo.NoActionBar"
-    tools:context=".ui.MessagesActivity"
+    tools:context=".ui.inbox.InboxActivity"
     tools:ignore="RtlHardcoded">
 
     <androidx.appcompat.widget.Toolbar

@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.main.chats;
+package com.tangent.firebasedemo.ui.home.chats;
 
 import android.content.Context;
 import android.view.LayoutInflater;

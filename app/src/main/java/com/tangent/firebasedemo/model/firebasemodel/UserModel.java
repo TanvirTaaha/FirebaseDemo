@@ -1,15 +1,26 @@
 package com.tangent.firebasedemo.model.firebasemodel;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.tangent.firebasedemo.model.BaseModel;
 
 import java.util.ArrayList;
 
+@Entity
 public class UserModel extends BaseModel {
+    @PrimaryKey
     private String id;
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "phone_number")
     private String phoneNumber;
+    @ColumnInfo(name = "profile_picture")
     private String profilePicture;
+    @ColumnInfo(name = "bio")
     private String bio;
+    @ColumnInfo(name = "inbox")
     private ArrayList<InboxItem> inbox;
 
     public UserModel() {
