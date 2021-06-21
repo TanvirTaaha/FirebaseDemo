@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tangent.firebasedemo.databinding.FragmentChatsBinding;
-import com.tangent.firebasedemo.ui.home.CreateChatActivity;
+import com.tangent.firebasedemo.ui.create_chat.CreateChatActivity;
 import com.tangent.firebasedemo.ui.home.HomeActivity;
 import com.tangent.firebasedemo.ui.home.HomeActivityViewModel;
 import com.tangent.firebasedemo.utils.Util;

@@ -2,16 +2,16 @@ package com.tangent.firebasedemo.repository;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tangent.firebasedemo.model.firebasemodel.Conversation;
 import com.tangent.firebasedemo.model.firebasemodel.InboxItem;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
@@ -20,6 +20,7 @@ import com.tangent.firebasedemo.utils.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 import timber.log.Timber;
 
@@ -28,6 +29,8 @@ public class FirebaseDatabaseRepo {
     private final DatabaseReference usersBranch;
     private DatabaseReference currentUserRef;
     private static FirebaseDatabaseRepo mInstance;
+    private final CollectionReference usersCollectionRef;
+    private final CollectionReference messagesCollectionRef;
 
     public static synchronized FirebaseDatabaseRepo getInstance() {
         if (mInstance == null) mInstance = new FirebaseDatabaseRepo();
@@ -38,8 +41,11 @@ public class FirebaseDatabaseRepo {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         messagesBranch = db.getReference().child(Util.BRANCH_MESSAGES);
         usersBranch = db.getReference().child(Util.BRANCH_USERS);
-        setListenerUsers();
-        setListenerMessages();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        usersCollectionRef = firestore.collection("users_db");
+        messagesCollectionRef = firestore.collection("messages_db");
+//        setListenerUsers();
+//        setListenerMessages();
 //        db.setPersistenceEnabled(true);
     }
 
@@ -79,9 +85,9 @@ public class FirebaseDatabaseRepo {
         usersBranch.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                String pushId = snapshot.getKey();
-//                snapshot.getRef().keepSynced(true);
-//                snapshot.getRef().child("id").setValue(pushId);
+                /*  The uid has been taken from FirebaseUser#getUid() and put in the UserModel
+                    No need to worry.
+                 */
                 Timber.i("User:added called %s", snapshot.toString());
             }
 
@@ -107,38 +113,48 @@ public class FirebaseDatabaseRepo {
         });
     }
 
-    public Task<Void> createUser(UserModel user) {
-        if (user.getInbox() == null) {
-            user.setInbox(new ArrayList<>());
+//    public Task<Void> createUserRealtime(UserModel model) {
+//        if (model.getInbox() == null) {
+//            model.setInbox(new ArrayList<>());
+//        }
+//        return usersBranch.child(model.getId()).setValue(model);
+//    }
+//
+//    public Task<DocumentReference> createUserFirestore(UserModel model) {
+//        if (model.getInbox() == null) {
+//            model.setInbox(new ArrayList<>());
+//        }
+//        return users_db.add(model);
+//    }
+
+    public void createNewUser(UserModel model, OnCompleteListener<Void> listener) {
+        if (model.getInbox() == null) {
+            model.setInbox(new ArrayList<>());
         }
-        return usersBranch.child(user.getId()).setValue(user);
+        usersBranch.child(model.getId()).setValue(model).addOnCompleteListener(listener);
+        usersCollectionRef.document(model.getId()).set(model).addOnCompleteListener(listener);
     }
 
-    public LiveData<UserModel> getUserFromInternet(@NonNull String id) {
-        MutableLiveData<UserModel> userModelLD = new MutableLiveData<>();
-        currentUserRef = usersBranch.child(id);
-        currentUserRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                userModelLD.setValue(task.getResult().getValue(UserModel.class));
-                currentUserRef.keepSynced(true);
+    public UserModel getUserFromInternet(@NonNull String id) {
+        AtomicReference<UserModel> model = new AtomicReference<>();
+        usersCollectionRef.document(id).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                model.set(documentSnapshot.toObject(UserModel.class));
             }
-        });
-        currentUserRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                userModelLD.setValue(snapshot.getValue(UserModel.class));
-            }
+        }).addOnFailureListener(Throwable::printStackTrace);
+        return model.get();
+    }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                Timber.e(error.getMessage());
-            }
-        });
-        return userModelLD;
+    @Nullable
+    public synchronized void fetchUserModelFromInternet(@NonNull String phoneNoWithCountryCode,
+                                                        @NonNull OnCompleteListener<QuerySnapshot> listener) {
+        usersCollectionRef.whereEqualTo("phoneNumber", phoneNoWithCountryCode)
+                .get()
+                .addOnCompleteListener(listener);
     }
 
     public ArrayList<Conversation> getAllConversationForUID(@NonNull String uid) {
-        UserModel user = getUserFromInternet(uid).getValue();
+        UserModel user = getUserFromInternet(uid);
         final ArrayList<Conversation> conversations = new ArrayList<>();
         for (InboxItem item : user.getInbox()) {
             final Conversation[] conv = new Conversation[1];

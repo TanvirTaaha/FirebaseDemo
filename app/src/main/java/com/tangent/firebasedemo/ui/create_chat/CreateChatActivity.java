@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.home;
+package com.tangent.firebasedemo.ui.create_chat;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityCreateChatBinding;
+import com.tangent.firebasedemo.model.PhoneContactModel;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
 
 import java.util.ArrayList;
@@ -51,11 +52,19 @@ public class CreateChatActivity extends AppCompatActivity {
                 new ArrayList<>());
         binding.rcvContacts.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvContacts.setAdapter(contactsAdapter);
+        contactsAdapter.setOnItemClickListener(new CreateChatContactsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, PhoneContactModel model) {
+
+            }
+        });
 
         setupSearchView();
 
-        viewModel.getContactCount().observe(this,
-                integer -> binding.toolbarCreateChat.setSubtitle("" + integer + " Contacts"));
+        viewModel.getContactCount().observe(this, integer -> {
+                    mProgressDialog.dismiss();
+                    binding.toolbarCreateChat.setSubtitle("" + integer + " Contacts");
+                });
 
         viewModel.getContactList().observe(this, list -> {
             mProgressDialog.dismiss();
@@ -123,6 +132,7 @@ public class CreateChatActivity extends AppCompatActivity {
                 requestForPermission();
             } else {
                 Timber.d("already was granted");
+                //already contacts are loaded
             }
         } else {
             Timber.d("version is less than 'M'");

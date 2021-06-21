@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.home;
+package com.tangent.firebasedemo.ui.create_chat;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,11 +15,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class CreateChatContactsAdapter extends RecyclerView.Adapter<CreateChatContactsAdapter.VHContact> {
-    private Context context;
-    private List<PhoneContactModel> mList;
+    private final Context context;
+    private final List<PhoneContactModel> mList;
+    private OnItemClickListener onItemClickListener;
+
     public CreateChatContactsAdapter(Context context, List<PhoneContactModel> list) {
         this.context = context;
         this.mList = list;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     protected static class VHContact extends RecyclerView.ViewHolder {
@@ -41,6 +47,9 @@ public class CreateChatContactsAdapter extends RecyclerView.Adapter<CreateChatCo
     public void onBindViewHolder(@NonNull @NotNull VHContact holder, int position) {
         PhoneContactModel model = getItem(position);
         holder.binding.tvName.setText(model.getName());
+
+        holder.binding.getRoot()
+                .setOnClickListener(v -> onItemClickListener.onItemClick(position, model));
     }
 
     @Override
@@ -58,5 +67,9 @@ public class CreateChatContactsAdapter extends RecyclerView.Adapter<CreateChatCo
 
     public List<PhoneContactModel> getList() {
         return mList;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, PhoneContactModel model);
     }
 }

@@ -1,8 +1,15 @@
 package com.tangent.firebasedemo.ui.home;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +22,12 @@ import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityHomeBinding;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 import com.tangent.firebasedemo.ui.home.chats.ChatsFragment;
+import com.tangent.firebasedemo.utils.IntentExtraTag;
 import com.tangent.firebasedemo.utils.PreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
+
+import timber.log.Timber;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,11 +45,48 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(this);
         viewModel = new ViewModelProvider(this).get(HomeActivityViewModel.class);
+        viewModel.setUserId(preferenceManager.getUserId());
 
-        mUserModel = preferenceManager.getCurrentUserModel();
-
+        mUserModel = viewModel.getUserModel();
 
         setupTabWithViewPager();
+        startContactLoading();
+    }
+
+    private void startContactLoading() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                Timber.d("sending permission");
+                requestForPermission();
+            } else {
+                Timber.d("already was granted");
+                //already contacts are loaded
+            }
+        } else {
+            Timber.d("version is less than 'M'");
+            viewModel.refreshContacts();
+        }
+    }
+
+    private void requestForPermission() {
+        registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            Timber.d("Permission callback");
+            if (isGranted) {
+                Timber.v("Granted");
+                viewModel.refreshContacts(); //First time after app install
+            } else {
+                Timber.i("Not granted");
+                Toast.makeText(getApplicationContext(), "App needs permission to read your contacts", Toast.LENGTH_LONG).show();
+                setResult(Activity.RESULT_CANCELED, new Intent().putExtra(IntentExtraTag.PERMISSION_CONTACT_READ.getTag(), false));
+                finish();
+            }
+        }).launch(Manifest.permission.READ_CONTACTS);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mUserModel = viewModel.getUserModel();
     }
 
     private void setupTabWithViewPager() {
@@ -63,12 +110,6 @@ public class HomeActivity extends AppCompatActivity {
             this.mActivity = activity;
         }
 
-//    @Nullable
-//    @Override
-//    public CharSequence getPageTitle(int position) {
-//        return mContext.getResources().getString(TAB_TITLES[position]);
-//    }
-
         public Context getContext() {
             return mActivity;
         }
@@ -77,7 +118,13 @@ public class HomeActivity extends AppCompatActivity {
         @NotNull
         @Override
         public Fragment createFragment(int position) {
-            return ChatsFragment.newInstance(position + 1);
+            switch (position) {
+                case 1:
+                    return TestFragment.newInstance("Tab 2", "test");
+                case 0:
+                default:
+                    return ChatsFragment.newInstance(position + 1);
+            }
         }
 
         @Override

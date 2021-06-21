@@ -1,5 +1,6 @@
 package com.tangent.firebasedemo.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import com.tangent.firebasedemo.model.firebasemodel.UserModel;
 import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
 import com.tangent.firebasedemo.ui.home.HomeActivity;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
+import com.tangent.firebasedemo.utils.PreferenceManager;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class SecondSignupActivity extends AppCompatActivity {
 
     private ActivitySecondSignupBinding binding;
     private UserModel mUserModel;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,28 +40,35 @@ public class SecondSignupActivity extends AppCompatActivity {
             finish();
         }
 
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Connecting");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+
         binding.btnNext.setOnClickListener(v -> {
             if (TextUtils.isEmpty(binding.etName.getText())) {
                 Snackbar.make(v, "Name can not be empty", Snackbar.LENGTH_SHORT).show();
                 return;
             }
+            mProgressDialog.show();
             String name = binding.etName.getText().toString().trim();
             mUserModel.setName(name);
             ArrayList<InboxItem> inbox = new ArrayList<>();
             mUserModel.setInbox(inbox); //empty inbox
-            FirebaseDatabaseRepo database = FirebaseDatabaseRepo.getInstance();
-            database.createUser(mUserModel)
-                    .addOnSuccessListener(unused -> {
-                        Intent i = new Intent(SecondSignupActivity.this, HomeActivity.class);
-                        i.putExtra(IntentExtraTag.PREVIOUSLY_LOGGED_IN_USER.getTag(), mUserModel);
-                        finish();
-                        startActivity(i);
-                    })
-                    .addOnFailureListener(e -> {
-                        Snackbar.make(v, "Server error!", Snackbar.LENGTH_SHORT).show();
-                        Timber.e(e);
-                        e.printStackTrace();
-                    });
+            FirebaseDatabaseRepo firebaseDBRepo = FirebaseDatabaseRepo.getInstance();
+            firebaseDBRepo.createNewUser(mUserModel, task -> {
+                if (task.isSuccessful()) {
+                    PreferenceManager _pref = new PreferenceManager(SecondSignupActivity.this);
+                    _pref.setUserId(mUserModel.getId());
+                    _pref.setCurrentUserModel(mUserModel);
+                    startActivity(new Intent(SecondSignupActivity.this, HomeActivity.class));
+                    finish();
+                } else {
+                    Snackbar.make(v, "Server error!", Snackbar.LENGTH_SHORT).show();
+                    Timber.e(task.getException());
+                    if (task.getException() != null) task.getException().printStackTrace();
+                }
+                mProgressDialog.dismiss();
+            });
         });
     }
 }

@@ -24,7 +24,7 @@ public class PreferenceManager {
         USER_NAME("userName"),
         USER_EMAIL("userEmail"),
         USER_PASSWORD("userPassword"),
-        USER_ID("userId"),
+        LOGGED_IN_USER_ID("loggedInUserId"),
         PHONE_NO_ENTERED_BEFORE("phoneNoEnteredBeforeForSignup"),
         PHONE_CONTACT_ARRAYLIST("phoneContactArrayList"),
         PREVIOUSLY_LOGGED_IN_USER("previouslyLoggedInUser"),
@@ -101,11 +101,11 @@ public class PreferenceManager {
     }
 
     public void setUserId(String userId) {
-        sharedPreferences.edit().putString(PreferenceKey.USER_ID.getKey(), userId).apply();
+        sharedPreferences.edit().putString(PreferenceKey.LOGGED_IN_USER_ID.getKey(), userId).apply();
     }
 
     public String getUserId() {
-        return sharedPreferences.getString(PreferenceKey.USER_ID.getKey(), "");
+        return sharedPreferences.getString(PreferenceKey.LOGGED_IN_USER_ID.getKey(), "");
     }
 
     public void setPreviouslyEnteredPhoneNo(String previouslyEnteredPhoneNo) {

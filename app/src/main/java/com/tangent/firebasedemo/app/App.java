@@ -21,7 +21,7 @@ public class App extends Application {
         mInstance = new WeakReference<>(this);
         executorService = Executors.newFixedThreadPool(1);
         if (BuildConfig.DEBUG) {
-            Timber.plant(new TagTree("Taaha", true));
+            Timber.plant(new TagTree("FireDemo", true));
         }
     }
 

@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.home;
+package com.tangent.firebasedemo.ui.create_chat;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

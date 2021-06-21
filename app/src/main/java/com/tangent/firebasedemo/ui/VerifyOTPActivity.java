@@ -136,6 +136,7 @@ public class VerifyOTPActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("Connecting");
+        mProgressDialog.setCanceledOnTouchOutside(false);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
         mCountDownTimer = new CountDownTimer(TimeUnit.SECONDS.toMillis(CODE_TIMEOUT), TimeUnit.SECONDS.toMillis(1)) {
             @Override

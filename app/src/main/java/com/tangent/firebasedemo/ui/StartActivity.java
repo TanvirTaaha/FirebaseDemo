@@ -48,11 +48,12 @@ public class StartActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         new Handler().postDelayed(() -> {
-            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-            if (currentUser != null && Util.isNotEmpty(currentUser.getPhoneNumber())) {
-                new PreferenceManager(this).setUserId(currentUser.getUid());
+            FirebaseUser authCurrentUser = mFirebaseAuth.getCurrentUser();
+            String _uid = new PreferenceManager(this).getUserId();
+            if (authCurrentUser != null && Util.isNotEmpty(_uid) && _uid.equals(authCurrentUser.getUid())) {
                 startActivity(new Intent(StartActivity.this, HomeActivity.class));
             } else {
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(StartActivity.this, FirstSignupActivity.class));
             }
             finish();

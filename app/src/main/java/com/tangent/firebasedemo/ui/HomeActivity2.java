@@ -21,10 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.KeyValueAdapter;
-import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
-import com.tangent.firebasedemo.model.firebasemodel.UserModel;
+import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
 import com.tangent.firebasedemo.ui.home.HomeActivity;
 import com.tangent.firebasedemo.ui.inbox.InboxActivity;
 
@@ -181,6 +180,6 @@ public class HomeActivity2 extends AppCompatActivity {
 
     FirebaseDatabaseRepo firebaseDatabaseRepo;
     private void test(String key, String value) {
-        firebaseDatabaseRepo.createUser(new UserModel("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
+//        firebaseDatabaseRepo.createUserRealtime(new UserModel("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
     }
 }

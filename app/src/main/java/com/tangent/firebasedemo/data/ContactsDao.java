@@ -21,7 +21,6 @@ public interface ContactsDao {
     @Query("SELECT COUNT(display_name) FROM phonecontactmodel")
     LiveData<Integer> getCount();
 
-    @NonNull
     @Query("SELECT COUNT(display_name) FROM phonecontactmodel")
     int getCountStatic();
 
