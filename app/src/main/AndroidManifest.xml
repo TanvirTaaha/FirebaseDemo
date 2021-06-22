@@ -30,11 +30,11 @@
             <!--                android:resource="@xml/searchable" />-->
         </activity>
         <activity
-            android:name=".ui.SecondSignupActivity"
+            android:name=".ui.auth.SecondSignupActivity"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.FirstSignupActivity"
+            android:name=".ui.auth.FirstSignupActivity"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
 
@@ -55,15 +55,15 @@
             android:label="Inbox"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar" />
         <activity
-            android:name=".ui.VerifyOTPActivity"
-            android:parentActivityName=".ui.FirstSignupActivity"
+            android:name=".ui.auth.VerifyOTPActivity"
+            android:parentActivityName=".ui.auth.FirstSignupActivity"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.HomeActivity2" />
         <activity android:name=".ui.SignUpActivity" />
         <activity android:name=".ui.LogInActivity" />
         <activity
-            android:name=".ui.StartActivity"
+            android:name=".ui.auth.StartActivity"
             android:theme="@style/Theme.FireBaseDemo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

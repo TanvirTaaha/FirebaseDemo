@@ -50,5 +50,6 @@
     <string name="search">Search</string>
     <string name="contacts">Contacts</string>
     <string name="refresh">Refresh</string>
-    <string name="type_to_search">Type to search...</string>
+    <string name="type_to_search">Type to search…</string>
+    <string name="bio_available">Available</string>
 </resources>

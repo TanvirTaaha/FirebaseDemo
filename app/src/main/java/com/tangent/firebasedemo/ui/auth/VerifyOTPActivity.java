@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui;
+package com.tangent.firebasedemo.ui.auth;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

@@ -30,6 +30,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvContacts"
         android:layout_width="match_parent"
+        tools:listitem="@layout/contact_recycler_view_item"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

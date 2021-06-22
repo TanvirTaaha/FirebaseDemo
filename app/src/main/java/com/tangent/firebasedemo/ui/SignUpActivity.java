@@ -18,6 +18,7 @@ import com.tangent.firebasedemo.databinding.ActivitySignUpBinding;
 import com.tangent.firebasedemo.model.SignUpModel;
 import com.tangent.firebasedemo.presenter.BaseBody;
 import com.tangent.firebasedemo.presenter.Presenter;
+import com.tangent.firebasedemo.ui.auth.StartActivity;
 import com.tangent.firebasedemo.utils.PreferenceManager;
 
 import java.util.Objects;

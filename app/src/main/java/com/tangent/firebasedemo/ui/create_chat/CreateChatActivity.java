@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityCreateChatBinding;
-import com.tangent.firebasedemo.model.PhoneContactModel;
+import com.tangent.firebasedemo.ui.inbox.InboxActivity;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
 
 import java.util.ArrayList;
@@ -47,27 +47,26 @@ public class CreateChatActivity extends AppCompatActivity {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.setMessage("Loading");
+        mProgressDialog.show();
 
-        contactsAdapter = new CreateChatContactsAdapter(this,
-                new ArrayList<>());
+        contactsAdapter = new CreateChatContactsAdapter(this, new ArrayList<>());
         binding.rcvContacts.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvContacts.setAdapter(contactsAdapter);
-        contactsAdapter.setOnItemClickListener(new CreateChatContactsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, PhoneContactModel model) {
-
-            }
+        contactsAdapter.setOnItemClickListener((position, model) -> {
+            Intent i = new Intent(CreateChatActivity.this, InboxActivity.class);
+            startActivity(i);
         });
 
         setupSearchView();
 
         viewModel.getContactCount().observe(this, integer -> {
-                    mProgressDialog.dismiss();
-                    binding.toolbarCreateChat.setSubtitle("" + integer + " Contacts");
-                });
+            mProgressDialog.dismiss();
+            binding.toolbarCreateChat.setSubtitle("" + integer + " Contacts");
+        });
 
         viewModel.getContactList().observe(this, list -> {
             mProgressDialog.dismiss();
+            contactsAdapter.getList().clear();
             contactsAdapter.getList().addAll(0, list);
             contactsAdapter.notifyDataSetChanged();
         });

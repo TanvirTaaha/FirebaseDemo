@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ContactRecyclerViewItemBinding;
 import com.tangent.firebasedemo.model.PhoneContactModel;
 
@@ -47,6 +49,12 @@ public class CreateChatContactsAdapter extends RecyclerView.Adapter<CreateChatCo
     public void onBindViewHolder(@NonNull @NotNull VHContact holder, int position) {
         PhoneContactModel model = getItem(position);
         holder.binding.tvName.setText(model.getName());
+        holder.binding.tvBio.setText(model.getBio());
+
+        Glide.with(getContext())
+                .load(model.getProfilePicture())
+                .placeholder(R.drawable.user_avatar)
+                .into(holder.binding.ivProPic);
 
         holder.binding.getRoot()
                 .setOnClickListener(v -> onItemClickListener.onItemClick(position, model));

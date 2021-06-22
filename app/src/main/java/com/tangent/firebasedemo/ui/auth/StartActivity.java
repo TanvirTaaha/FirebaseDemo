@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui;
+package com.tangent.firebasedemo.ui.auth;
 
 import android.Manifest;
 import android.content.Intent;

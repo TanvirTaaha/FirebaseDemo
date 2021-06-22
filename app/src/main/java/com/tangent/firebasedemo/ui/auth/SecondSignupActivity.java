@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui;
+package com.tangent.firebasedemo.ui.auth;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivitySecondSignupBinding;
 import com.tangent.firebasedemo.model.firebasemodel.InboxItem;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
@@ -52,6 +53,7 @@ public class SecondSignupActivity extends AppCompatActivity {
             mProgressDialog.show();
             String name = binding.etName.getText().toString().trim();
             mUserModel.setName(name);
+            mUserModel.setBio(getString(R.string.bio_available));
             ArrayList<InboxItem> inbox = new ArrayList<>();
             mUserModel.setInbox(inbox); //empty inbox
             FirebaseDatabaseRepo firebaseDBRepo = FirebaseDatabaseRepo.getInstance();

@@ -24,6 +24,7 @@ import com.tangent.firebasedemo.adapter.KeyValueAdapter;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
 import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
+import com.tangent.firebasedemo.ui.auth.FirstSignupActivity;
 import com.tangent.firebasedemo.ui.home.HomeActivity;
 import com.tangent.firebasedemo.ui.inbox.InboxActivity;
 
