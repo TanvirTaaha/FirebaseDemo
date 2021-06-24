@@ -2,15 +2,15 @@ package com.tangent.firebasedemo.model.uimodel;
 
 import com.tangent.firebasedemo.model.BaseModel;
 
-public class Chat extends BaseModel {
+public class ChatModel extends BaseModel {
     private String text;
-    private String photo;
     private String time;
+    private String photo;
     private String userName;
     private String userId;
     private boolean mine;
 
-    public Chat(String text, String photo, String time, String userName, String userId, boolean mine) {
+    public ChatModel(String text, String photo, String time, String userName, String userId, boolean mine) {
         this.text = text;
         this.photo = photo;
         this.time = time;
@@ -19,7 +19,7 @@ public class Chat extends BaseModel {
         this.mine = mine;
     }
 
-    public Chat() {
+    public ChatModel() {
     }
 
     public String getText() {

@@ -8,27 +8,24 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.ConversationAdapter;
 import com.tangent.firebasedemo.databinding.ActivityInboxBinding;
-import com.tangent.firebasedemo.model.uimodel.Chat;
+import com.tangent.firebasedemo.model.firebasemodel.ChatBubble;
 import com.tangent.firebasedemo.utils.AbstractTextWatcher;
 import com.tangent.firebasedemo.utils.AnimButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 public class InboxActivity extends AppCompatActivity {
 
     private ActivityInboxBinding binding;
+    private InboxActivityViewModel viewModel;
 
-    public final String ANONYMOUS = getString(R.string.anonymous);
-    private ArrayList<Chat> mChats;
+    private ArrayList<ChatBubble> mChatBubbles;
     private ConversationAdapter mAdapter;
 
     @Override
@@ -38,8 +35,8 @@ public class InboxActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.llToolbarBackPress.setOnClickListener(v -> onBackPressed());
-
-        setupRecyclerView();
+        viewModel = new ViewModelProvider(this).get(InboxActivityViewModel.class);
+        initializeRecyclerView();
 
         binding.tilMsgText.setStartIconOnClickListener(v -> hideKeyboard(binding.tietMsgText));
         binding.tietMsgText.addTextChangedListener(new AbstractTextWatcher() {
@@ -60,23 +57,28 @@ public class InboxActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter.setChatClickListener((v, position) -> Toast.makeText(InboxActivity.this, mChats.get(position).getText(), Toast.LENGTH_SHORT).show());
+        mAdapter.setChatClickListener((v, position) -> Toast.makeText(InboxActivity.this, mChatBubbles.get(position).getText(), Toast.LENGTH_SHORT).show());
 
     }
 
-    private void setupRecyclerView() {
-        mChats = new ArrayList<>();
-        mAdapter = new ConversationAdapter(this, mChats);
+    private void initializeRecyclerView() {
+        mChatBubbles = new ArrayList<>();
+        mAdapter = new ConversationAdapter(this, mChatBubbles);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setStackFromEnd(true);
         binding.rcvConversation.setLayoutManager(llm);
         binding.rcvConversation.setAdapter(mAdapter);
+        viewModel.getChatBubbleList().observe(this, chatBubbles -> {
+            mChatBubbles.clear();
+            mChatBubbles.addAll(0, chatBubbles);
+            mAdapter.notifyDataSetChanged();
+        });
     }
 
     private void addMessage(String message, boolean mine) {
-        String dateStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.getDefault()).format(new Date());
-        mChats.add(new Chat(message, null, dateStr, null, null, mine));
-        mAdapter.notifyItemInserted(mChats.size() - 1);
+//        String dateStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.getDefault()).format(new Date());
+//        mChatBubbles.add(new ChatModel(message, null, dateStr, null, null, mine));
+//        mAdapter.notifyItemInserted(mChatBubbles.size() - 1);
     }
 
     public void hideKeyboard(View view) {

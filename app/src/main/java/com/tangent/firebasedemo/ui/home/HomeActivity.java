@@ -21,7 +21,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.databinding.ActivityHomeBinding;
 import com.tangent.firebasedemo.model.firebasemodel.UserModel;
-import com.tangent.firebasedemo.ui.home.chats.ChatsFragment;
+import com.tangent.firebasedemo.ui.home.chatModels.ChatsFragment;
 import com.tangent.firebasedemo.utils.IntentExtraTag;
 import com.tangent.firebasedemo.utils.PreferenceManager;
 
