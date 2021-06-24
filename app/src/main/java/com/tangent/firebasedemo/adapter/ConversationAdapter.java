@@ -58,6 +58,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         TextView tvTime;
         ImageView ivCorner;
         ViewBinding binding;
+
         public VHChat(@NonNull ViewBinding binding) {
             super(binding.getRoot());
             tvText = itemView.findViewById(R.id.tvText);
@@ -80,6 +81,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     protected static class VHMe extends VHChat {
         ChatMessageItemMeBinding binding;
+
         public VHMe(@NonNull ChatMessageItemMeBinding binding) {
             super(binding);
             this.binding = binding;
@@ -88,6 +90,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     protected static class VHYou extends VHChat {
         ChatMessageItemYouBinding binding;
+
         public VHYou(@NonNull ChatMessageItemYouBinding binding) {
             super(binding);
             this.binding = binding;
@@ -134,6 +137,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 holder.ivCorner.setVisibility(View.INVISIBLE);
             else {
                 holder.ivCorner.setVisibility(View.VISIBLE);
+            }
+
+            if (mClickListener != null) {
+                holder.setClickListener(position, mClickListener);
+            }
+            if (mLongClickListener != null) {
+                holder.setLongClickListener(position, mLongClickListener);
             }
         } else { //for error detecting if no view type matched
             holder.tvText.setText(R.string.blank_chat_bubble_when_error);
