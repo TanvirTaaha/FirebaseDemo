@@ -50,5 +50,7 @@
         android:layout_height="18dp"
         android:layout_marginLeft="-8dp"
         android:layout_marginTop="1.8dp"
+        android:clickable="true"
+        android:focusable="true"
         app:srcCompat="@drawable/chat_bubble_corner_me_vector" />
 </LinearLayout>

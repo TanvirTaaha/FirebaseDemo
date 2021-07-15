@@ -9,9 +9,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.tangent.firebasedemo.R;
-import com.tangent.firebasedemo.model.uimodel.Chat;
+import com.tangent.firebasedemo.databinding.ChatMessageItemMeBinding;
+import com.tangent.firebasedemo.databinding.ChatMessageItemYouBinding;
+import com.tangent.firebasedemo.model.firebasemodel.ChatBubble;
+import com.tangent.firebasedemo.utils.PreferenceManager;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -20,40 +24,47 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapter.VHChat> {
 
     private final Context mContext;
-    private ArrayList<Chat> mChats;
-    private SimpleDateFormat mDateFormatFull;
-    private SimpleDateFormat mDateFormatShort;
+    private final ArrayList<ChatBubble> mChatBubbles;
+    private final SimpleDateFormat mDateFormatFull;
+    private final SimpleDateFormat mDateFormatShort;
     private ChatClickListener mClickListener;
     private ChatLongClickListener mLongClickListener;
+    private final PreferenceManager prefMan;
 
     public Context getContext() {
         return mContext;
     }
 
-    public ConversationAdapter(Context context, ArrayList<Chat> chats) {
+    private final int VIEW_TYPE_ME = 0;
+    private final int VIEW_TYPE_YOU = 1;
+
+    public ConversationAdapter(Context context, ArrayList<ChatBubble> chatBubbles) {
         this.mContext = context;
-        this.mChats = chats;
+        this.mChatBubbles = chatBubbles;
         this.mDateFormatFull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.getDefault());
         this.mDateFormatShort = new SimpleDateFormat("HH:mm a", Locale.getDefault());
+        this.prefMan = new PreferenceManager(context);
     }
 
-    public Chat getItem(int position) {
-        return mChats.get(position);
+    public ChatBubble getItem(int position) {
+        return mChatBubbles.get(position);
     }
 
     protected static class VHChat extends RecyclerView.ViewHolder {
         TextView tvText;
         TextView tvTime;
         ImageView ivCorner;
+        ViewBinding binding;
 
-        public VHChat(@NonNull View itemView) {
-            super(itemView);
+        public VHChat(@NonNull ViewBinding binding) {
+            super(binding.getRoot());
             tvText = itemView.findViewById(R.id.tvText);
             tvTime = itemView.findViewById(R.id.tvTime);
             ivCorner = itemView.findViewById(R.id.ivCorner);
+            this.binding = binding;
         }
 
         public void setClickListener(int position, ChatClickListener listener) {
@@ -68,76 +79,90 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    protected static class VH1 extends RecyclerView.ViewHolder {
+    protected static class VHMe extends VHChat {
+        ChatMessageItemMeBinding binding;
 
-        public VH1(@NonNull View itemView) {
-            super(itemView);
+        public VHMe(@NonNull ChatMessageItemMeBinding binding) {
+            super(binding);
+            this.binding = binding;
         }
     }
 
-    protected static class VH2 extends RecyclerView.ViewHolder {
+    protected static class VHYou extends VHChat {
+        ChatMessageItemYouBinding binding;
 
-        public VH2(@NonNull View itemView) {
-            super(itemView);
+        public VHYou(@NonNull ChatMessageItemYouBinding binding) {
+            super(binding);
+            this.binding = binding;
         }
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 1) {
-            return new VHChat(LayoutInflater.from(getContext()).inflate(R.layout.chat_message_item_you, parent, false));
+    public VHChat onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ME) {
+            return new VHMe(ChatMessageItemMeBinding.inflate(LayoutInflater.from(getContext()), parent, false));
         } else {
-            return new VHChat(LayoutInflater.from(getContext()).inflate(R.layout.chat_message_item_me, parent, false));
+            return new VHYou(ChatMessageItemYouBinding.inflate(LayoutInflater.from(getContext()), parent, false));
         }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == 0 || getItemViewType(position) == 1) {
-            Chat chat = getItem(position);
-            VHChat vhChat = (VHChat) holder;
+    public void onBindViewHolder(@NonNull VHChat holder, int position) {
+        if (getItemViewType(position) == VIEW_TYPE_ME || getItemViewType(position) == VIEW_TYPE_YOU) {
+            ChatBubble chatBubble = getItem(position);
 
             String dateStr;
             try {
-                dateStr = mDateFormatShort.format(Objects.requireNonNull(mDateFormatFull.parse(chat.getTime())));
+                dateStr = mDateFormatShort.format(Objects.requireNonNull(mDateFormatFull.parse(chatBubble.getTime())));
             } catch (ParseException | NullPointerException e) {
                 e.printStackTrace();
                 dateStr = "";
             }
 
-            vhChat.tvText.setText(MessageFormat.format("{0}            ", chat.getText()));
+            holder.tvText.setText(MessageFormat.format("{0}            ", chatBubble.getText()));
 //            vhChat.tvText.setText(Html.fromHtml(Html.toHtml(vhChat.tvText.getText().toString()) + " &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;")); // 10 spaces
 
-            vhChat.tvTime.setText(dateStr);
+            holder.tvTime.setText(dateStr);
 
             if (mClickListener != null) {
-                vhChat.setClickListener(position, mClickListener);
+                holder.setClickListener(position, mClickListener);
             }
+
             if (mLongClickListener != null) {
-                vhChat.setLongClickListener(position, mLongClickListener);
+                holder.setLongClickListener(position, mLongClickListener);
             }
 
             if ((position != 0) && (getItemViewType(position - 1) == getItemViewType(position)))
-                vhChat.ivCorner.setVisibility(View.INVISIBLE);
+                holder.ivCorner.setVisibility(View.INVISIBLE);
             else {
-                vhChat.ivCorner.setVisibility(View.VISIBLE);
+                holder.ivCorner.setVisibility(View.VISIBLE);
             }
-        } else {
-            VHChat vhChat = (VHChat) holder;
-            vhChat.tvText.setText(R.string.blank_chat_bubble_when_error);
-            vhChat.tvTime.setText(R.string.blank_chat_bubble_when_error);
+
+            if (mClickListener != null) {
+                holder.setClickListener(position, mClickListener);
+            }
+            if (mLongClickListener != null) {
+                holder.setLongClickListener(position, mLongClickListener);
+            }
+        } else { //for error detecting if no view type matched
+            holder.tvText.setText(R.string.blank_chat_bubble_when_error);
+            holder.tvTime.setText(R.string.blank_chat_bubble_when_error);
         }
     }
 
     @Override
     public int getItemCount() {
-        return mChats.size();
+        return mChatBubbles.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mChats.get(position).isMine() ? 0 : 1;
+        return mChatBubbles.get(position).getSender_id().equals(prefMan.getUserId()) ? VIEW_TYPE_ME : VIEW_TYPE_YOU;
+    }
+
+    public ArrayList<ChatBubble> getList() {
+        return mChatBubbles;
     }
 
     public void setChatClickListener(ChatClickListener chatClickListener) {

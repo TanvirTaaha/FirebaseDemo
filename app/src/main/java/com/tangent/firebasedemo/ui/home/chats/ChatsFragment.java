@@ -1,4 +1,4 @@
-package com.tangent.firebasedemo.ui.home.chats;
+package com.tangent.firebasedemo.ui.home.chatModels;
 
 import android.content.Intent;
 import android.os.Bundle;

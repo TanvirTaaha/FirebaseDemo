@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.FireBaseDemo.NoActionBar"
-    tools:context=".ui.inbox.InboxActivity"
+    tools:context=".MessagesActivity"
     tools:ignore="RtlHardcoded">
 
     <androidx.appcompat.widget.Toolbar
@@ -91,13 +91,14 @@
         tools:listitem="@layout/chat_message_item_you"
         tools:visibility="visible" />
 
-<!--    This was for testing click effect-->
-<!--    <ImageView-->
-<!--        android:id="@+id/ivTest"-->
-<!--        android:layout_width="60dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:src="@drawable/chat_bubble_corner_me_vector"/>-->
+    <ImageView
+        android:id="@+id/ivTest"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/chat_bubble_corner_me_vector"/>
 
     <LinearLayout
         android:id="@+id/llCreateMessage"

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<<< HEAD:app/src/main/res/layout/activity_start.xml
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.auth.StartActivity">
+    tools:context=".ui.StartActivity">
 
     <Button
         android:id="@+id/btngotosignUp"
@@ -22,20 +24,26 @@
         android:layout_gravity="center_horizontal"
         android:text="LogIn"
         android:visibility="gone" />
+========
+    tools:context=".MainActivity">
+>>>>>>>> otp sending works untested:app/src/main/res/layout/activity_main.xml
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<<<<<<<< HEAD:app/src/main/res/layout/activity_start.xml
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:contentDescription="@string/app_name"
-        android:src="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/tvLoggedIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Already logged in"
-        android:textSize="32sp"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/app_name" />
 </LinearLayout>
+========
+</androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>>> otp sending works untested:app/src/main/res/layout/activity_main.xml

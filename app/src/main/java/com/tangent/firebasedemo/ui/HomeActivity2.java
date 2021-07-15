@@ -21,12 +21,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tangent.firebasedemo.R;
 import com.tangent.firebasedemo.adapter.KeyValueAdapter;
+import com.tangent.firebasedemo.data.MessagesDatabase;
 import com.tangent.firebasedemo.model.BaseModel;
 import com.tangent.firebasedemo.model.KeyValueRealTimeModel;
-import com.tangent.firebasedemo.repository.FirebaseDatabaseRepo;
-import com.tangent.firebasedemo.ui.auth.FirstSignupActivity;
-import com.tangent.firebasedemo.ui.home.HomeActivity;
-import com.tangent.firebasedemo.ui.inbox.InboxActivity;
+import com.tangent.firebasedemo.model.firebasemodel.User;
+import com.tangent.firebasedemo.ui.main.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -75,7 +74,7 @@ public class HomeActivity2 extends AppCompatActivity {
         rvRealTimeData.setAdapter(keyValueAdapter);
 
         databaseRefCities = FirebaseDatabase.getInstance().getReference().child("cities");
-        firebaseDatabaseRepo = FirebaseDatabaseRepo.getInstance();
+        messagesDatabase = new MessagesDatabase();
 
         getAllDataFromDatabase(false);
 
@@ -88,7 +87,7 @@ public class HomeActivity2 extends AppCompatActivity {
         btnAddData.setOnClickListener(v -> test(etKey.getText().toString().trim(), etValue.getText().toString().trim()));
 
 
-        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, InboxActivity.class)));
+        btnMessages.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, MessagesActivity.class)));
         btnHomeAct1.setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, HomeActivity.class)));
 
         databaseRefCities.addChildEventListener(new ChildEventListener() {
@@ -139,9 +138,9 @@ public class HomeActivity2 extends AppCompatActivity {
 
         btnLogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, FirstSignupActivity.class));
+            startActivity(new Intent(this, SignupFirstActivity.class));
         });
-        findViewById(R.id.btngoto).setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, FirstSignupActivity.class)));
+        findViewById(R.id.btngoto).setOnClickListener(v -> startActivity(new Intent(HomeActivity2.this, SignupFirstActivity.class)));
     }
 
     private void getAllDataFromDatabase(boolean fromRefresh) {
@@ -179,8 +178,8 @@ public class HomeActivity2 extends AppCompatActivity {
         });
     }
 
-    FirebaseDatabaseRepo firebaseDatabaseRepo;
+    MessagesDatabase messagesDatabase;
     private void test(String key, String value) {
-//        firebaseDatabaseRepo.createUserRealtime(new UserModel("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
+        messagesDatabase.createUser(new User("", "Taaha", "01700000", "empty", "empty", new ArrayList<>()));
     }
 }
