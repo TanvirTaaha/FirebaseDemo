@@ -8,4 +8,4 @@ and tutorials that I found most helpful working in this project.
 
 ### Basic Firebasey stuff
   1. [Firebase in a weekend(Udacity)](https://www.udacity.com/course/firebase-in-a-weekend-by-google-android--ud0352)
-  2. 
+ 
